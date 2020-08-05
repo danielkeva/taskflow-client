@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+html{
+    font-family: Lato;
+}
+body {
+    margin: 0 auto;
+    font-size: rem(14px);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+h1,
+h2,
+h3 {
+    // font-family: GreatVibes, serif;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+// button,
+// input,
+// select,
+// textarea {
+//     font-family: inherit;
+//     font-size: inherit;
+//     line-height: inherit;
+//     color: inherit;
+// }

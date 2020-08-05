@@ -1,0 +1,14 @@
+.board-details {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    .list-container {
+        flex-grow: 1;    
+        display: flex;
+        align-items: flex-start;
+        white-space: nowrap;
+        margin-bottom: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+}

@@ -1,0 +1,23 @@
+// SETUP
+@import "setup/typography";
+@import "setup/variables";
+@import "setup/mixins";
+@import "setup/functions";
+
+// BASICS
+@import "basics/helpers";
+@import "basics/base";
+
+// VIEWS
+@import "views/board-details";
+@import "views/task-details";
+
+// COMPONENTS
+@import "cmps/text-editor";
+@import "cmps/task-list";
+@import "cmps/task-actions";
+@import "cmps/list-menu";
+@import "cmps/task-preview";
+@import "cmps/label-picker";
+@import "cmps/labels-list";
+@import "cmps/checklist";

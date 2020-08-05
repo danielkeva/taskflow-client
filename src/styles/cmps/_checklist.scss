@@ -1,0 +1,20 @@
+.checklist-item {
+    .checklist-item-edit {
+        display: flex;
+        align-items: center;
+       &.done{
+           .module-text{
+               text-decoration: line-through;
+           }
+       }
+    }
+    .checklist-user-msg {
+        color: #5e6c84;
+        a {
+            text-decoration: underline;
+            &:hover {
+                color: #172b4d;
+            }
+        }
+    }
+}

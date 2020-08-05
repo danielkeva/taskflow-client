@@ -1,0 +1,44 @@
+
+.label-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    .card-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 3px;
+        cursor: pointer;
+        font-weight: 700;
+        margin: 0 6px 4px 0;
+        font-size: 14px;
+        width: 100%;
+        padding: 6px 12px;
+        .label-title {
+            min-height: 20px;
+        }
+    }
+}
+.label-selected {
+    font-size: rem(9px);
+    color: white;
+}
+
+.modal-btn {
+    text-align: center;
+    margin-bottom: 5px;
+  width: 160px;
+}
+
+.edit-label {
+    min-height: 200px;
+    .color-pallete {
+        display: flex;
+        flex-wrap: wrap;
+        .color-picker {
+            width: 48px;
+            height: 32px;
+            margin: 4px;
+        }
+    }
+}

@@ -1,0 +1,129 @@
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: start;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+
+.mark-selected {
+  outline: 2px dashed #272727;
+  outline-offset: 3px;
+}
+
+.pop-up {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  position: absolute;
+  top: rem(8px);
+  right: rem(8px);
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+  overflow: hidden;
+  width: 304px;
+  z-index: 70;
+}
+
+.pop-up-header {
+  text-align: center;
+  position: relative;
+  color: #5e6c84;
+  line-height: 40px;
+  border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+  overflow: hidden;
+  padding: 0 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pop-up-close-btn {
+  color: #6b778c;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.clear-btn {
+  border: 0;
+  padding: 0;
+  background-color: inherit;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.submit-btn {
+  background-color: #5aac44;
+  color: #fff;
+  border: none;
+  margin: 8px 4px 0 0;
+  padding: 6px 12px;
+  line-height: 20px;
+  border-radius: 3px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.modal-btn {
+  font-size: rem(14px);
+  background-color: rgba(9, 30, 66, 0.04);
+  box-shadow: none;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  height: 32px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  user-select: none;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+    box-shadow: none;
+    border: none;
+  }
+}
+// Aspect ratios
+
+.ratio-16-9 {
+  @include aspect-ratio(100, 56);
+}
+
+.ratio-square {
+  @include aspect-ratio(100, 100);
+}
+
+.ratio-card {
+  @include aspect-ratio(100, 80);
+}
+
+.ratio-poster {
+  @include aspect-ratio(100, 150);
+}

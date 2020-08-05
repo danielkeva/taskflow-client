@@ -1,0 +1,45 @@
+/* Media  Mixins */
+
+//aspect ratio mixin
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  > img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// @mixin custom-btn($bgc-clr) {
+//   background-color: $bgc-clr;
+//   color: #fff;
+//   border: none;
+//   margin: 8px 4px 0 0;
+//   padding: 6px 12px;
+//   line-height: 20px;
+//   border-radius: 3px;
+//   font-weight: 500;
+//   transition: 0.3s;
+// }
+
+// Mixin for removing hover efects on iphone screen
+@mixin hover-supported {
+  @media not all and (pointer: coarse) {
+    &:hover {
+      @content;
+    }
+  }
+}
