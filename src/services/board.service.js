@@ -57,7 +57,7 @@ let board = {
         },
     ],
     taskLists: [
-          {
+        {
             id: 'list1',
             title: 'This is the list title',
             theme: 'white',
@@ -143,6 +143,7 @@ function query() {
 }
 
 function getTaskById(taskId) {
+    console.log('service', board);
     for (let i = 0; i < board.taskLists.length; i++) {
         var task = board.taskLists[i].tasks.find(task => task.id === taskId)
         if (task) {
@@ -153,7 +154,7 @@ function getTaskById(taskId) {
 
 function save(newBoard) {
     board = newBoard
-    return board
+    return JSON.parse(JSON.stringify(board))
 }
 
 function getEmptyList() {
@@ -195,7 +196,7 @@ function getEmptyListItem() {
     }
 }
 
-function newActivity(cardTxt,boardTxt, taskId) {
+function newActivity(cardTxt, boardTxt, taskId) {
     return {
         id: utilService.makeId(),
         cardTxt, // text to display without link to the card

@@ -1,7 +1,7 @@
 import React from 'react'
 import { RiCloseLine } from "react-icons/ri";
 
-const ListMenu = ({ onCloseMenu }) => {
+const ListMenu = ({ onCloseMenu, onRemoveList,onAddTask }) => {
     return (
         <div className="pop-up list-menu">
             <div className="pop-up-header">
@@ -10,10 +10,10 @@ const ListMenu = ({ onCloseMenu }) => {
                     <RiCloseLine />
                 </button>
             </div>
-            <div >Add card</div>
+            <div onClick={onAddTask} >Add card</div>
             <div>Change list color</div>
             <div>Sort list by</div>
-            <div>Delete list</div>
+            <div onClick={onRemoveList}>Delete list</div>
         </div>
     )
 }

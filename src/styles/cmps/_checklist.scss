@@ -1,19 +1,28 @@
+.spacer {
+    flex: 1;
+}
+
 .checklist-item {
+    &:hover {
+        background-color: rgba(9, 30, 66, 0.04);
+        cursor: pointer;
+    }
+
     .checklist-item-edit {
         display: flex;
-        align-items: center;
-       &.done{
-           .module-text{
-               text-decoration: line-through;
-           }
-       }
-    }
-    .checklist-user-msg {
-        color: #5e6c84;
-        a {
-            text-decoration: underline;
-            &:hover {
-                color: #172b4d;
+        // align-items: center;
+        .remove-item-btn {
+            display: none;
+        }
+        &:hover {
+            .remove-item-btn {
+                display: block;
+                margin-right: 10px;
+            }
+        }
+        &.done {
+            .module-text {
+                text-decoration: line-through;
             }
         }
     }

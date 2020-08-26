@@ -1,65 +1,150 @@
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useState, useRef, useCallback } from 'react'
+import { Container, Draggable } from 'react-smooth-dnd';
 import { BsThreeDots } from "react-icons/bs";
 
 import TaskPreview from './TaskPreview'
 import TextEditor from '../TextEditor'
 import ListMenu from './ListMenu';
 import { boardService } from '../../services/board.service';
+import { utilService } from '../../services/util.service';
+import useOnClickOutside from '../../hooks/useOnClickOutSide';
+import { useMemo } from 'react';
 
-const TaskList = ({ taskList, onListUpdated }) => {
-    const [taskListCopy, setTaskListCopy] = useState(null)
+const TaskList = ({ board, taskList, onListUpdated, onRemoveList }) => {
+    const [taskListCopy, setTaskListCopy] = useState({ ...taskList })
     const [newTask, setNewTask] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const wrapperRef = useRef(null)
+    const initialRender = useRef(true)
 
     useEffect(() => {
-        setTaskListCopy(JSON.parse(JSON.stringify(taskList)))
+        const setTask = () => {
+            setTaskListCopy({ ...taskList })
+        }
+        setTask()
     }, [taskList])
 
-    const updateList = (text) => {
-        if (newTask && text) {
-            // setNewTask(prevState => ({ ...prevState }, prevState.title = text))
-            setNewTask({ ...newTask }, newTask.title = text)
-            console.log('dasd', newTask);
-            setTaskListCopy({ ...taskListCopy, tasks: [...taskListCopy.tasks, newTask] })
-        }
-        else if (text) {
-            setTaskListCopy({ ...taskListCopy }, taskListCopy.title = text)
-        }
-        setIsEditing(false)
-        console.log('dhither');
-        setNewTask(null)
-        onListUpdated(taskListCopy)
-    }
-
     const getEmptyTask = () => {
+        console.log('task list getEmptytask');
         setIsMenuOpen(false)
         const emptyTask = boardService.getEmptyTask()
         setNewTask(emptyTask)
         setIsEditing(true)
     }
 
+    const handleListChange = (ev) => {
+        setTaskListCopy({ ...taskListCopy, [ev.target.name]: ev.target.value })
+    }
+
+    const handleTaskChange = (ev) => {
+        setNewTask({ ...newTask, [ev.target.name]: ev.target.value })
+
+    }
+    const handleListRemove = () => {
+        onRemoveList(taskList.id)
+    }
+    const updateList = (updatedTaskList) => {
+        if (updatedTaskList) {
+            onListUpdated(updatedTaskList)
+        } else {
+            onListUpdated(taskListCopy)
+        }
+        setIsEditing(false)
+        setNewTask(null)
+    }
+    const addTask = () => {
+        if (newTask && newTask.title) {
+            const updatedTaskList = JSON.parse(JSON.stringify(taskListCopy));
+            updatedTaskList.tasks.push(newTask)
+            updateList(updatedTaskList)
+        }
+        setIsEditing(false)
+        setNewTask(null)
+    }
+
+
+
+    useOnClickOutside(wrapperRef, () => {
+        if (isEditing) {
+            console.log('outside');
+            addTask()
+        }
+    });
+    // useEffect(() => {
+    //     if (!initialRender.current && !isEditing) {
+    //         console.log('task list useEffect');
+    //         updateList()
+    //     } else {
+    //         initialRender.current = false
+    //     }
+    // }, [taskListCopy.tasks.length])
+
+    const handleDrop = (dropResult) => {
+        const updatedTaskList = JSON.parse(JSON.stringify(taskListCopy));
+        updatedTaskList.tasks = utilService.applyDrag(updatedTaskList.tasks, dropResult)
+        if (
+            (dropResult.removedIndex !== null && dropResult.removedIndex !== null) ||
+            (dropResult.addedIndex >= 0 && dropResult.addedIndex !== null)
+        ) {
+            onListUpdated(updatedTaskList)
+        }
+    }
+    const getTaskPayload = (index) => {
+        return board.taskLists.filter(askList => askList.id === taskList.id)[0].tasks[index];
+    }
     return (
         taskListCopy &&
         <div className="list-wrapper">
             <div className="list-header">
-                {taskListCopy.title && <TextEditor type="h3" text={taskListCopy.title} onInputBlur={updateList} />}
+                {taskListCopy.title &&
+                    <TextEditor
+                        name="title"
+                        type="h3"
+                        text={taskListCopy.title}
+                        onChange={handleListChange}
+                        onInputBlur={updateList}
+                    />}
+
                 <button className="list-menu-btn clear-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+
                     <BsThreeDots />
                 </button>
-                {isMenuOpen && !isEditing && <ListMenu onCloseMenu={() => setIsMenuOpen(false)} />}
+                {isMenuOpen && !isEditing &&
+                    <ListMenu onRemoveList={handleListRemove} onAddTask={getEmptyTask} onCloseMenu={() => setIsMenuOpen(false)} />}
             </div>
             <div className="list-content">
-                <div>
+
+                <Container
+                    groupName="tasks"
+                    onDrop={handleDrop}
+                    getChildPayload={index => getTaskPayload(index)}
+                >
+
                     {taskListCopy.tasks.map(task => (
-                        <TaskPreview key={task.id} task={task} />
+                        <Draggable key={task.id}>
+                            <TaskPreview task={task} />
+                        </Draggable>
                     ))}
-                </div>
+
+                </Container>
+
             </div>
-            <div className="list-footer">
-                {!isEditing && <button onClick={getEmptyTask}>add new task</button>}
-                {isEditing && newTask && <TextEditor type="p" text={newTask.title} onInputBlur={updateList} isFocused={isEditing} />}
+            <div className="list-footer" ref={wrapperRef}>
+                {(!isEditing && !newTask) ?
+                    <button className="clear-btn" onClick={getEmptyTask}>add new task</button> :
+                    (<div ref={wrapperRef}>
+                        <TextEditor
+                            name="title"
+                            type="p"
+                            text={newTask.title}
+                            onChange={handleTaskChange}
+                            isFocused={isEditing}
+                            onSubmit={addTask}
+                        />
+                        <button onClick={addTask} className="submit-btn">Add task</button>
+                    </div>)
+                }
             </div>
         </div >
 

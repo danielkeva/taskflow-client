@@ -40,6 +40,16 @@
     }
 }
 
-// .list-menu-container {
-//     position: relative;
-// }
+.list-wrapper {
+    &.add-list {
+        align-items: flex-start;
+        padding: 8px;
+        .add-list-controls {
+            display: flex;
+            align-items: flex-end;
+            .icon-lg {
+                color: #5e6c84;
+            }
+        }
+    }
+}
