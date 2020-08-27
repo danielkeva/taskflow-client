@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import MainNav from './components/MainNav';
 import BoardDetails from './pages/BoardDetails';
 import { BoardContextProvider } from './store/contexts/BoardContext';
-import TaskDetails from './pages/TaskDetails';
+import BoardsPage from './pages/BoardsPage';
 
 function App() {
   return (
@@ -14,7 +14,8 @@ function App() {
         <Router>
           <MainNav />
           <Switch>
-            <Route  path="/board" component={BoardDetails} />
+            <Route  path="/board/:boardId" component={BoardDetails} />
+            <Route  path="/boards" component={BoardsPage} />
             <Route  path="/" component={HomePage} />
           </Switch>
         </Router>

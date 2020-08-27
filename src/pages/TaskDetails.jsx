@@ -15,11 +15,11 @@ const TaskDetails = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if (taskId) {
+        if (board) {
             loadTask(taskId)
             console.log('tas',taskId);
         }
-    }, [taskId])
+    }, [board])
 
     useEffect(() => {
         const setTaskCopy = () => {
@@ -31,7 +31,7 @@ const TaskDetails = () => {
     }, [currTask])
 
     const closeModal = () => {
-        history.push("/board")
+        history.push(`/board/${board._id}`)
     }
 
     const handleChange = (ev) => {

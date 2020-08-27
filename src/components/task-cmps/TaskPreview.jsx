@@ -1,9 +1,11 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useRouteMatch } from 'react-router-dom'
 import LabelList from './task-actions/LabelList'
 import Moment from 'react-moment';
 
 const TaskPreview = ({ task }) => {
+let { url } = useRouteMatch();
+
     const calendarStrings = {
         lastDay: '[Yesterday ] ',
         sameDay: '[Today ] ',
@@ -14,7 +16,7 @@ const TaskPreview = ({ task }) => {
     };
     return (
         <div className="task-preview">
-            <NavLink to={`/board/${task.id}`} className="task-link" exact activeClassName="active" draggable="false">
+            <NavLink to={`${url}/${task.id}`} className="task-link"  activeClassName="active" draggable="false">
                 {task.labels && <LabelList labels={task.labels} />}
                 <div>{task.title}</div>
                 {task.dueDate && <Moment calendar={calendarStrings} date={task.dueDate} />}

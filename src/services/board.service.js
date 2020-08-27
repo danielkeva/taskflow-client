@@ -1,5 +1,5 @@
+import HttpService from './http.service.js'
 import { utilService } from './util.service.js'
-
 let board = {
 
     theme: 'white',
@@ -130,6 +130,7 @@ let board = {
 export const boardService = {
     query,
     save,
+    getById,
     getTaskById,
     getEmptyList,
     getEmptyTask,
@@ -138,12 +139,21 @@ export const boardService = {
     newActivity
 }
 
+// function query() {
+//     return board
+// }
+
+
 function query() {
-    return board
+    return HttpService.get('board')
+}
+
+async function getById(id) {
+    const currBoard = await HttpService.get(`board/${id}`)
+    return currBoard
 }
 
 function getTaskById(taskId) {
-    console.log('service', board);
     for (let i = 0; i < board.taskLists.length; i++) {
         var task = board.taskLists[i].tasks.find(task => task.id === taskId)
         if (task) {

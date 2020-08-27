@@ -2,6 +2,11 @@
 
 export const boardReducer = (state, action) => {
     switch (action.type) {
+        case 'SET_BOARDS':
+            return {
+                 ...state,
+                 boards: [ ...action.boards ]
+                };
         case 'SET_BOARD':
             return {
                  ...state,
