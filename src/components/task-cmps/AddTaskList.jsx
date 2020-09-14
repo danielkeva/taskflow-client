@@ -31,9 +31,9 @@ const AddTaskList = ({ board, onBoardUpdated }) => {
     });
 
     return (
-        <div>
+        <div className="list-wrapper ">
             {newTaskList ?
-                <div className="list-wrapper add-list" ref={wrapperRef}>
+                <div className="list add-list" ref={wrapperRef}>
                     <TextEditor
                         isFocused={true}
                         onChange={handleChange}

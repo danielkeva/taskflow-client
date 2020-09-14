@@ -2,12 +2,13 @@ import React, { createContext, useReducer } from 'react';
 
 import { boardReducer } from '../reducers/boardReducer.js';
 import { boardService } from '../../services/board.service.js';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 const initialState = {
   boards: null,
   board: null,
   currTask: null,
+  isLoading: true
 };
 
 export const BoardContext = createContext(initialState);
@@ -17,27 +18,34 @@ export const BoardContextProvider = ({ children }) => {
 
   async function loadBoards() {
     const boards = await boardService.query()
-    console.log('boards', boards)
-    dispatch({ type: 'SET_BOARDS', boards })
+    if (boards) {
+      dispatch({ type: 'SET_BOARDS', boards })
+    }
   }
 
   async function getBoardById(id) {
+    console.log('yes');
+
     const currBoard = await boardService.getById(id)
+    dispatch({ type: 'FETCH_STARTED' });
     if (currBoard) {
       dispatch({ type: 'SET_BOARD', board: currBoard })
+    } else {
+      dispatch({ type: 'FETCH_ENDED' });
     }
   }
 
 
   function loadTask(taskId) {
-    console.log('yes');
+    dispatch({ type: 'FETCH_STARTED' });
     state.board.taskLists.forEach(taskList => {
       const task = taskList.tasks.find(task => task.id === taskId)
       if (task) {
-        console.log('yes', task);
+        dispatch({ type: 'FETCH_ENDED' });
         dispatch({ type: 'SET_TASK', currTask: task })
       }
     })
+
   }
   // function loadTask(taskId) {
   //   const currTask = boardService.getTaskById(taskId)
@@ -87,6 +95,7 @@ export const BoardContextProvider = ({ children }) => {
         boards: state.boards,
         board: state.board,
         currTask: state.currTask,
+        isLoading: state.isLoading,
         loadBoards,
         getBoardById,
         loadTask,

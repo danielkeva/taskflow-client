@@ -1,0 +1,17 @@
+.cover-colors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .cover-color {
+        min-width: 4.5rem;
+        padding: 22px;
+        margin-left: 0.3125rem;
+        margin-bottom: 0.3125rem;
+        border-radius: 0.1875rem;
+        cursor: pointer;
+        &:hover{
+            // filter: opacity(80%);
+            opacity: 0.8;
+        }
+    }
+}

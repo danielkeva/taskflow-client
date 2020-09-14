@@ -1,8 +1,19 @@
 .list-wrapper {
+    height: 100%;
+    width: 272px;
+    flex-shrink: 0;
+    margin: 4px;
+    .modal-btn {
+        margin-top: 0;
+    }
+}
+
+.list {
     display: flex;
     flex-direction: column;
-    width: 272px;
-    margin: 0 4px;
+    /* overflow-y: auto; */
+    /* min-height: auto; */
+
     max-height: 100%;
     white-space: nowrap;
     background-color: #ebecf0;
@@ -10,6 +21,7 @@
     .list-header {
         flex: 0 0 0;
         width: 100%;
+        padding: 6px 12px;
         display: flex;
         justify-content: space-between;
         position: relative;
@@ -30,17 +42,39 @@
     }
     .list-content {
         flex: 1 1 auto;
+        min-height: 30px;
         display: flex;
         flex-direction: column;
-        // max-height: 100%;
         background-color: #ebecf0;
-        padding: 6px 8px 2px;
+        margin: 0 4px;
+        padding: 0 4px;
         white-space: normal;
         overflow-y: auto;
     }
+    .list-footer-btn {
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        color: #5e6c84;
+        margin: 2px 0 8px 8px;
+        padding: 4px 8px;
+        // position: relative;
+        width: 200px;
+        .add-icon {
+            line-height: 1px;
+            margin-right: 5px;
+        }
+        &:hover {
+            background-color: rgba(9, 30, 66, 0.08);
+            color: #172b4d;
+        }
+        &:active {
+            background-color: rgba(9, 30, 66, 0.13);
+        }
+    }
 }
 
-.list-wrapper {
+.list {
     &.add-list {
         align-items: flex-start;
         padding: 8px;
@@ -50,6 +84,53 @@
             .icon-lg {
                 color: #5e6c84;
             }
+        }
+    }
+}
+
+.add-task-wrapper {
+    // padding: 6px 8px 2px;
+    .text-editor-wrapper {
+        background-color: #fff;
+        margin-bottom: 8px;
+        border-radius: 3px;
+        .focusClass {
+            min-height: 54px;
+            box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+        }
+    }
+    .add-task-controls {
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 8px;
+        .icon-lg {
+            line-height: 1;
+            margin-left: 5px;
+        }
+    }
+}
+
+.placeholder {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.12);
+    border-color: transparent;
+    border-radius: 3px;
+}
+
+.u-fancy-scrollbar {
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+        // border-radius: 20px;
+    }
+    &::-webkit-scrollbar-track-piece {
+        background-color: rgba(9, 30, 66, 0.08);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(9, 32, 72, 0.173);
+        border-radius: 10px;
+        &:hover {
+            background-color: rgba(5, 18, 41, 0.358);
         }
     }
 }

@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState } from 'react'
 import LabelPicker from './LabelPicker'
 import DatePicker from './DatePicker'
 import ChecklistPicker from './checklist-cmps/ChecklistPicker'
+import useOnClickOutside from '../../../hooks/useOnClickOutSide'
+import CoverPicker from './CoverPicker'
 
-const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated }) => {
+const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivity }) => {
+    const wrapperRef = useRef(null)
     const [isActive, setIsActive] = useState(false)
     const [currAction, setCurrAction] = useState('')
     const [activeAction, setAction] = useState({
@@ -12,8 +15,13 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated }) => {
         isMemberActive: false,
         isChecklistActive: false,
         isDueDateActive: false,
-        isAttachmentActive: false,
+        isCoverActive: false,
     })
+
+    useOnClickOutside(wrapperRef, () => {
+        closeModal()
+    });
+
 
     const toggle = (isActive) => {
         setAction(prevState => ({
@@ -32,10 +40,9 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated }) => {
         setIsActive(false);
         setCurrAction('')
     }
-   
+
     return (
-        <div className="modal-sidebar">
-            <div className={'sidebar-cover ' + (isActive ? 'active' : '')} onClick={closeModal}></div>
+        <div className="modal-sidebar" ref={wrapperRef}>
             <button className="modal-btn" onClick={() => toggle('isLabelActive')}>Labels</button>
             {activeAction.isLabelActive &&
                 <LabelPicker
@@ -58,11 +65,14 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated }) => {
                 <DatePicker
                     task={task}
                     onTaskUpdated={onUpdateTask}
+                    onAddActivity={onAddActivity}
                     onCloseModal={closeModal}
                 />}
-            <button className="modal-btn" >Attachment</button>
-            <div>Attachment</div>
-            {/* <button className="modal-btn" onClick="$emit('removeTask')">Delete</button> */}
+            <button className="modal-btn" onClick={() => toggle('isCoverActive')}>Cover</button>
+            {activeAction.isCoverActive &&
+                <CoverPicker
+                    onCloseModal={closeModal}
+                    onTaskUpdated={onUpdateTask} />}            {/* <button className="modal-btn" onClick="$emit('removeTask')">Delete</button> */}
         </div>
     )
 }

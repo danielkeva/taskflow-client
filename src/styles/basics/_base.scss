@@ -1,12 +1,20 @@
 * {
     box-sizing: border-box;
 }
-html{
+html {
     font-family: Lato;
 }
 body {
     margin: 0 auto;
     font-size: rem(14px);
+    color: $clr1;
+    // overflow: hidden;
+}
+html,
+body,
+#root,
+main {
+    height: 100%;
 }
 
 a {

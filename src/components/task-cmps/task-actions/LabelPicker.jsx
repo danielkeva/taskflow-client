@@ -24,20 +24,13 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
         const labelsCopy = [...labels];
         const labelIdx = labelsCopy.findIndex(label => label.id === selectedLabel.id)
         labelsCopy.splice(labelIdx, 1, selectedLabel)
-        labelsUpdated(labelsCopy)
+        labelsUpdated([...labelsCopy], selectedLabel)
         setIsEditing(false);
-
-
-        // const taskCopy = JSON.parse(JSON.stringify(task));
-        // const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
-        // if (taskLabelIdx !== -1) {
-        //     console.log('yes');
-        //     taskCopy.labels.splice(taskLabelIdx, 1, selectedLabel)
-        //     onTaskUpdated(taskCopy)
-        // }
     }
+
     useEffect(() => {
-        if (!isEditing) {
+        if (!isEditing && selectedLabel) {
+            console.log('yesbabe');
             const taskCopy = JSON.parse(JSON.stringify(task));
             const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
             if (taskLabelIdx !== -1) {
@@ -46,7 +39,21 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
                 onTaskUpdated(taskCopy)
             }
         }
+
     }, [isEditing])
+
+    // useEffect(() => {
+    //     if (!isEditing && selectedLabel) {
+    //         const taskCopy = JSON.parse(JSON.stringify(task));
+    //         const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
+    //         if (taskLabelIdx !== -1) {
+    //             console.log('yes');
+    //             taskCopy.labels.splice(taskLabelIdx, 1, selectedLabel)
+    //             onTaskUpdated(taskCopy)
+    //         }
+    //     }
+
+    // }, [isEditing])
 
 
     const toggleLabels = (selectedLabel) => {

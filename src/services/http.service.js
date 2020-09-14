@@ -37,7 +37,8 @@ async function ajax(endpoint, method='get', data=null) {
         if (err.response.status === 401) {
             console.log('ERROR: cannot find boards')
             throw err;     
-           }
+        }
+        throw err;     
     }
 }
 
