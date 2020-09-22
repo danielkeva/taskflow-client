@@ -21,13 +21,18 @@ function terminate() {
 }
 
 function on(eventName, cb) {
+
     socket.on(eventName, cb)
 }
 
 function off(eventName, cb) {
-    socket.off(eventName, cb)
+    if (socket) {
+        socket.off(eventName, cb)
+    }
 }
 
 function emit(eventName, data) {
-    socket.emit(eventName, data)
+    if (socket) {
+        socket.emit(eventName, data);
+    }
 }

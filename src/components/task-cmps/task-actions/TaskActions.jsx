@@ -8,43 +8,31 @@ import CoverPicker from './CoverPicker'
 
 const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivity }) => {
     const wrapperRef = useRef(null)
-    const [isActive, setIsActive] = useState(false)
-    const [currAction, setCurrAction] = useState('')
-    const [activeAction, setAction] = useState({
-        isLabelActive: false,
-        isMemberActive: false,
-        isChecklistActive: false,
-        isDueDateActive: false,
-        isCoverActive: false,
-    })
+    const [currAction, setCurrAction] = useState(null)
 
     useOnClickOutside(wrapperRef, () => {
-        closeModal()
+        if (currAction) {
+            closeModal()
+        }
     });
 
 
     const toggle = (isActive) => {
-        setAction(prevState => ({
-            ...prevState,
-            [isActive]: !prevState[isActive]
-        }));
-        setCurrAction(isActive)
-        setIsActive(prevState => (prevState, !prevState));
+        if (isActive === currAction) {
+            setCurrAction(null)
+        } else {
+            setCurrAction(isActive)
+        }
     }
 
     const closeModal = () => {
-        setAction(prevState => ({
-            ...prevState,
-            [currAction]: !prevState[currAction]
-        }));
-        setIsActive(false);
-        setCurrAction('')
+        setCurrAction(null)
     }
 
     return (
         <div className="modal-sidebar" ref={wrapperRef}>
             <button className="modal-btn" onClick={() => toggle('isLabelActive')}>Labels</button>
-            {activeAction.isLabelActive &&
+            {currAction === 'isLabelActive' &&
                 <LabelPicker
                     task={task}
                     labels={labels}
@@ -54,25 +42,27 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivit
                 />}
             <button className="modal-btn" >Members</button>
             <button className="modal-btn" onClick={() => toggle('isChecklistActive')}>Checklist</button>
-            {activeAction.isChecklistActive &&
+            {currAction === 'isChecklistActive' &&
                 <ChecklistPicker
                     task={task}
                     onTaskUpdated={onUpdateTask}
                     onCloseModal={closeModal}
                 />}
             <button className="modal-btn" onClick={() => toggle('isDueDateActive')}>Due date</button>
-            {activeAction.isDueDateActive &&
+            {currAction === 'isDueDateActive' &&
                 <DatePicker
                     task={task}
                     onTaskUpdated={onUpdateTask}
                     onAddActivity={onAddActivity}
                     onCloseModal={closeModal}
                 />}
-            <button className="modal-btn" onClick={() => toggle('isCoverActive')}>Cover</button>
-            {activeAction.isCoverActive &&
+            {/* Show the cover button only when cover is not set (displayed in header otherwise) */}
+            {!task.cover.background && <button className="modal-btn" onClick={() => toggle('isCoverActive')}>Cover</button>} 
+            {currAction === 'isCoverActive' && 
                 <CoverPicker
+                    task={task}
                     onCloseModal={closeModal}
-                    onTaskUpdated={onUpdateTask} />}            {/* <button className="modal-btn" onClick="$emit('removeTask')">Delete</button> */}
+                    onTaskUpdated={onUpdateTask} />}           
         </div>
     )
 }

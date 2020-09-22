@@ -18,7 +18,7 @@ const BoardsPage = () => {
 
     return (
         <div>
-            <h1>Boards</h1>
+            <h1>Boards new</h1>
             {boards && boards.length && boards.map(board => (
                 <div key={board._id}>
                     <NavLink to={`board/${board._id}`}>{board._id}</NavLink>

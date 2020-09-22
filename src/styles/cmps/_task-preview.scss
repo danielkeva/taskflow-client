@@ -1,19 +1,68 @@
 .task-preview {
     // display: flex;
     // flex-direction: column;
-    margin: 0 4px;
-    padding: 0 4px;
+    // margin: 0 4px;
+    // padding: 0 4px;
     background-color: #fff;
     border-radius: 3px;
     margin-bottom: 8px;
     box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
     .task-preview-content {
         padding: 6px 8px 2px;
+        width: 100%;
         .task-preview-title {
             overflow: hidden;
             overflow-wrap: break-word;
             white-space: normal;
             margin: 0 0 4px;
         }
+        &.content-wrapper {
+            align-self: flex-end;
+            width: 100%;
+            position: relative;
+            &.dark {
+                color: #fff;
+                background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), #000);
+                &::before {
+                    content: "";
+                    height: 32px;
+                    width: 100%;
+                    position: absolute;
+                    top: -32px;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+                    mix-blend-mode: normal;
+                }
+            }
+            &.light {
+                color: #000;
+                background: linear-gradient(180deg, hsla(0, 0%, 100%, 0.5), #fff);
+                &::before {
+                    content: "";
+                    height: 32px;
+                    width: 100%;
+                    position: absolute;
+                    top: -32px;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.5));
+                    mix-blend-mode: normal;
+                }
+            }
+        }
+    }
+    .task-cover {
+        height: 32px;
+        border-radius: 3px 3px 0 0;
+        transition: ease-in-out 0.45s;
+    }
+    .task-img-cover {
+        object-fit: cover;
+        width: 100%;
     }
 }
+
+// .dark{
+
+// }

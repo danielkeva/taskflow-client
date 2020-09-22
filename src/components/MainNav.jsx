@@ -4,7 +4,7 @@ const MainNav = () => {
     return (
         <nav>
             <NavLink to="/" className="main-navbar-nav-link" exact activeClassName="active">
-                Home </NavLink>  
+                Home </NavLink>
                 | <NavLink to="/boards" className="main-navbar-nav-link" exact activeClassName="active">
                 Boards </NavLink>
         </nav>

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 
 import App from './App.jsx';
 import './styles/global.scss'
+// import '@fortawesome/fontawesome-free/css/all.css'
 import * as serviceWorker from './serviceWorker';
 
 import store from './store'

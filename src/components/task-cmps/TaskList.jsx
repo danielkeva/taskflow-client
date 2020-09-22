@@ -61,20 +61,22 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
         setNewTask(null)
     }
 
-    const addTask = () => {
+    const addTask = async (clickSource = null) => {
         if (newTask && newTask.title) {
             const updatedTaskList = JSON.parse(JSON.stringify(taskListCopy));
             updatedTaskList.tasks.push(newTask)
-            updateList(updatedTaskList)
+            await updateList(updatedTaskList)
+            if (clickSource === 'clickedOutside') return; // if click is outside the ref wrapper end editing
+            setNewTask(null)
+            getEmptyTask()
         }
-        setIsEditing(false)
-        setNewTask(null)
     }
 
     useOnClickOutside(wrapperRef, () => {
-        if (isEditing) {
-            console.log('outside');
-            addTask()
+        if (isEditing && newTask && newTask.title) {
+            addTask('clickedOutside') // passing this string to add the current task and end the editing
+        } else {
+            stopEditing()
         }
     });
     const stopEditing = () => {
@@ -87,10 +89,9 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
             ref={innerRef}
             {...provided.draggableProps}
         >
-            <div
-                className="list"
-            >
-                <div className="list-header"     {...provided.dragHandleProps}>
+            <div className="list">
+
+                <div className="list-header" {...provided.dragHandleProps}>
                     {taskListCopy.title &&
                         <TextEditor
                             name="title"
@@ -99,40 +100,42 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
                             onChange={handleListChange}
                             onInputBlur={updateList}
                         />}
-
                     <button className="list-menu-btn clear-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-
                         <BsThreeDots />
                     </button>
-                    {isMenuOpen && !isEditing &&
-                        <ListMenu onRemoveList={handleListRemove} onAddTask={getEmptyTask} onCloseMenu={() => setIsMenuOpen(false)} />}
+                    {isMenuOpen && !isEditing && <ListMenu onRemoveList={handleListRemove} onAddTask={getEmptyTask} onCloseMenu={() => setIsMenuOpen(false)} />}
                 </div>
-
-
 
                 <Droppable type="task" droppableId={`${taskListIdx}`}>
                     {provided => (
-                        <div className="list-content u-fancy-scrollbar" {...provided.droppableProps} ref={provided.innerRef}>
-                            {taskList.tasks.map((task, index) => (
-                                <TaskPreview key={task.id} task={task} index={index} />
-                            ))}
+                        <div className="list-content " ref={provided.innerRef}>
+
+                            {/* <div className="list-content-scrollable u-fancy-scrollbar"> */}
+                                {taskList.tasks.map((task, index) => (
+                                    <TaskPreview key={task.id} task={task} index={index} />
+                                ))}
+                                {(isEditing && newTask) && <div className="add-task-wrapper " ref={wrapperRef}>
+                                    <TextEditor
+                                        name="title"
+                                        type="p"
+                                        text={newTask.title}
+                                        onChange={handleTaskChange}
+                                        isFocused={isEditing}
+                                        onSubmit={addTask}
+                                        onEscape={stopEditing}
+                                    />
+
+                                    <div className="add-task-controls">
+                                        <button onClick={addTask} className="submit-btn">Add task</button>
+                                        <button onClick={stopEditing} className="clear-btn icon-lg">
+                                            <RiCloseLine />
+                                        </button>
+                                    </div>
+
+                                </div>}
+                            {/* </div> */}
                             {provided.placeholder}
-                            {(isEditing && newTask) && <div className="add-task-wrapper "  ref={wrapperRef}>
-                                <TextEditor
-                                    name="title"
-                                    type="p"
-                                    text={newTask.title}
-                                    onChange={handleTaskChange}
-                                    isFocused={isEditing}
-                                    onSubmit={addTask}
-                                />
-                                <div className="add-task-controls">
-                                    <button onClick={addTask} className="submit-btn">Add task</button>
-                                    <button onClick={stopEditing} className="clear-btn icon-lg">
-                                        <RiCloseLine />
-                                    </button>
-                                </div>
-                            </div>}
+
                         </div>
                     )}
                 </Droppable>
@@ -141,7 +144,6 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
                         <a className="clear-btn list-footer-btn" onClick={getEmptyTask}  >
                             <span className="icon-lg add-icon"><RiAddLine /></span> <span>Add new task</span>
                         </a >
-
                     }
                 </div>
             </div>
@@ -151,41 +153,3 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
 }
 
 export default TaskList
-
-{/* <div className="list-footer" ref={wrapperRef}>
-                {(!isEditing && !newTask) ?
-                    <button className="clear-btn" onClick={getEmptyTask}>add new task</button> :
-                    (<div ref={wrapperRef}>
-                        <TextEditor
-                            name="title"
-                            type="p"
-                            text={newTask.title}
-                            onChange={handleTaskChange}
-                            isFocused={isEditing}
-                            onSubmit={addTask}
-                        />
-                        <button onClick={addTask} className="submit-btn">Add task</button>
-                        <button onClick={stopEditing} className="clear-btn icon-lg">
-                            <RiCloseLine />
-                        </button>
-                    </div>)
-                }
-            </div> */}
-
-
-        //     (<div className="add-task-wrapper" title={taskList.id} ref={wrapperRef}>
-        //     <TextEditor
-        //         name="title"
-        //         type="p"
-        //         text={newTask.title}
-        //         onChange={handleTaskChange}
-        //         isFocused={isEditing}
-        //         onSubmit={addTask}
-        //     />
-        //     <div className="add-task-controls">
-        //         <button onClick={addTask} className="submit-btn">Add task</button>
-        //         <button onClick={stopEditing} className="clear-btn icon-lg">
-        //             <RiCloseLine />
-        //         </button>
-        //     </div>
-        // </div>)

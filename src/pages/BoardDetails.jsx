@@ -16,10 +16,8 @@ import AddTaskList from '../components/task-cmps/AddTaskList'
 import useAsyncAction from '../hooks/useAsyncAction';
 import ActivityLog from '../components/ActivityLog';
 import { socketService } from '../services/socket.service';
-import { BsLockFill } from 'react-icons/bs';
 
 
-// const { getBoardById, isLoading, updateTaskList, removeTaskList, board, saveBoard } = useContext(BoardContext)
 const BoardDetails = () => {
     const dispatch = useDispatch()
     const board = useSelector(state => state.board.currBoard)
@@ -90,18 +88,19 @@ const BoardDetails = () => {
     }
 
     const onDragEnd = (result) => {
-        if ((result.source.index === result.destination.index) &&
-            (result.source.droppableId === result.destination.droppableId)) { // Check if  update is required
+        // Dropped outside the list
+        const { source, destination } = result;
+
+        if (!destination) {
+            return;
+        }
+        if ((source.index === destination.index) &&
+            (source.droppableId === destination.droppableId)) { // Check if  update is required
             return
         }
 
         setPlaceholderProps(null);
-        const { source, destination } = result;
 
-        // Dropped outside the list
-        if (!destination) {
-            return;
-        }
 
         let tasklists = [...board.taskLists];
         const newState = JSON.parse(JSON.stringify(board));
@@ -126,72 +125,119 @@ const BoardDetails = () => {
         updateBoard(newState)
     }
 
-    const handleDragStart = ev => {
-        if (ev.type !== 'lists') {  //Only when dragging lists
-            return
-        }
-        const draggedDOM = getDraggedDom(ev.draggableId);
-        if (!draggedDOM) {
-            return;
-        }
-        const { clientHeight, clientWidth } = draggedDOM.children[0];
-        const sourceIndex = ev.source.index;
-        var clientX =
+    // const handleDragStart = ev => {
+    //     if (ev.type !== 'lists') {  //Only when dragging lists
+    //         return
+    //     }
+    //     const draggedDOM = getDraggedDom(ev.draggableId);
+    //     if (!draggedDOM) {
+    //         return;
+    //     }
+    //     const { clientHeight, clientWidth } = draggedDOM.children[0];
+    //     const sourceIndex = ev.source.index;
+    //     var clientX =
 
-            [...draggedDOM.parentNode.children]
-                .slice(0, sourceIndex)
-                .reduce((total, curr) => {
-                    const style = curr.currentStyle || window.getComputedStyle(curr);
-                    const marginLeft = parseFloat(style.marginLeft);
-                    const marginRight = parseFloat(style.marginRight);
-                    // console.log('right',marginRight,'left',marginLeft);
-                    return total + curr.clientWidth + marginLeft + marginLeft;
-                }, 0);
+    //         [...draggedDOM.parentNode.children]
+    //             .slice(0, sourceIndex)
+    //             .reduce((total, curr) => {
+    //                 const style = curr.currentStyle || window.getComputedStyle(curr);
+    //                 const marginLeft = parseFloat(style.marginLeft);
+    //                 const marginRight = parseFloat(style.marginRight);
+    //                 // console.log('right',marginRight,'left',marginLeft);
+    //                 return total + curr.clientWidth + marginLeft + marginLeft;
+    //             }, 0);
 
-        setPlaceholderProps({
-            clientHeight,
-            clientWidth,
-            clientX,
-        });
-    };
+    //     setPlaceholderProps({
+    //         clientHeight,
+    //         clientWidth,
+    //         clientX,
+    //     });
+    // };
+
+    const [startX, setStartX] = useState(null)
+    const [startScrollX, setStartScrollX] = useState(null)
+
+    // const handleMouseDown = ({ target, clientX }) => {
+    //     console.log('target', target);
+    //     if (target.className !== "task-preview-title") {
+    //         console.log('yes', target);
+    //         return;
+    //     }
+    //     window.addEventListener("mousemove", handleMouseMove);
+    //     window.addEventListener("mouseup", handleMouseUp);
+    //     setStartX((prevState) => ({
+    //         ...prevState,
+    //         clientX,
+    //     }));
+    //     console.log('window',window.scrollX);
+    //     setStartScrollX(window.scrollX);
+
+    // };
+
+    // // Go to new scroll position every time the mouse moves while dragging is activated
+    // const handleMouseMove = ({ clientX }) => {
+    //     //   const { startX, startScrollX } = this.state;
+    //     const startXCopy = startX
+    //     const startScrollXCopy = startScrollX
+    //     const scrollX = startScrollXCopy - clientX + startXCopy;
+    //     window.scrollTo(scrollX, 0);
+    //     const windowScrollX = window.scrollX;
+    //     if (scrollX !== windowScrollX) {
+    //         const startXRes = clientX + windowScrollX - startScrollXCopy
+    //         setStartX(startXRes)
+    //     }
+    // }
+
+    // const handleMouseUp = () => {
+    //     if (startX) {
+    //         window.removeEventListener("mousemove", handleMouseMove);
+    //         window.removeEventListener("mouseup", handleMouseUp);
+    //         setStartX(null)
+    //         setStartScrollX(null)
+    //     }
+    // };
+
+
 
     const handleDragUpdate = ev => {
-        if (ev.type !== 'lists') {  //Only when dragging lists
+        if (ev.type !== 'task') {  //Only when dragging lists
             return
         }
-        if (!ev.destination) {
-            return;
-        }
+        // console.log('ev', ev);
+        // if (!ev.destination) {
+        //     return;
+        // }
 
         const draggedDOM = getDraggedDom(ev.draggableId);
 
         if (!draggedDOM) {
             return;
         }
+        // console.log('draggedDOM.parentNode', draggedDOM.parentNode)
+        // const { clientHeight, clientWidth, scrollTop, scrollHeight } = draggedDOM
+        // console.log('clientHeight: ', clientHeight, ' scrollTop: ', scrollTop, ' scrollHeight: ', scrollHeight);
+        // const destinationIndex = ev.destination.index;
+        // const sourceIndex = ev.source.index;
+        // const childrenArray = [...draggedDOM.parentNode.children];
+        // const movedItem = childrenArray[sourceIndex];
+        // childrenArray.splice(sourceIndex, 1);
+        // const updatedArray = [
+        //     ...childrenArray.slice(0, destinationIndex),
+        //     movedItem,
+        //     ...childrenArray.slice(destinationIndex + 1)
+        // ];
+        // var clientX =
+        //     updatedArray.slice(0, destinationIndex).reduce((total, curr) => {
+        //         const style = curr.currentStyle || window.getComputedStyle(curr);
+        //         const marginLeft = parseFloat(style.marginLeft);
+        //         return total + curr.clientWidth + marginLeft + marginLeft;
+        //     }, 0);
 
-        const { clientHeight, clientWidth } = draggedDOM.children[0];
-        const destinationIndex = ev.destination.index;
-        const sourceIndex = ev.source.index;
-        const childrenArray = [...draggedDOM.parentNode.children];
-        const movedItem = childrenArray[sourceIndex];
-        childrenArray.splice(sourceIndex, 1);
-        const updatedArray = [
-            ...childrenArray.slice(0, destinationIndex),
-            movedItem,
-            ...childrenArray.slice(destinationIndex + 1)
-        ];
-        var clientX =
-            updatedArray.slice(0, destinationIndex).reduce((total, curr) => {
-                const style = curr.currentStyle || window.getComputedStyle(curr);
-                const marginLeft = parseFloat(style.marginLeft);
-                return total + curr.clientWidth + marginLeft + marginLeft;
-            }, 0);
-
-        setPlaceholderProps({
-            clientHeight,
-            clientWidth,
-            clientX
-        });
+        // setPlaceholderProps({
+        //     clientHeight,
+        //     clientWidth,
+        //     clientX
+        // });
     };
 
 
@@ -202,19 +248,22 @@ const BoardDetails = () => {
         return draggedDOM;
     };
 
+
+
     if (loading) {
         return (<div>Loading...</div>)
     }
     else return (
-        <section className="board-details">
-            
-                {/* <div className="board-header">
-                    <button>button1</button>
-                    <button>button2</button>
-                    <button>button3</button>
-                </div> */}
+        <section className="board-details" >
+
+            {/* <div className="board-header">
+                <button>button1</button>
+                <button>button2</button>
+                <button>button3</button>
+            </div> */}
             {board && <DragDropContext
-                onDragStart={handleDragStart}
+                // onDragStart={handleDragStart}
+
                 onDragUpdate={handleDragUpdate}
                 onDragEnd={onDragEnd}>
                 <Droppable droppableId="board" type="lists" direction='horizontal' >

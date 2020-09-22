@@ -55,6 +55,12 @@ export function updateTask(task) {
     }
 }
 
+export function toggleLabels() {
+    return dispatch => {
+        dispatch({ type: 'TOGGLE_LABELS' });
+    }
+}
+
 
 
 

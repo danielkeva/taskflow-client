@@ -1,10 +1,14 @@
 .labels-list {
     display: flex;
     flex-wrap: wrap;
+    transition: ease-in-out 0.45s;
+
     .label {
+        cursor: pointer;
         min-width: 2.5rem;
+        max-width: 2.5rem;
         padding: 1px;
-        height: 1.375rem;
+        height: 8px;
         display: inline-block;
         margin-left: 0.3125rem;
         margin-bottom: 0.3125rem;
@@ -16,5 +20,16 @@
         color: white;
         font-weight: 500;
         font-size: rem(13px);
+        transition: ease-in-out 0.45s;
+        .label-title {
+            display: none;
+        }
+        &.label-expand {
+            height: 1.375rem;
+            max-width: 190px;
+            .label-title {
+                display: block;
+            }
+        }
     }
 }

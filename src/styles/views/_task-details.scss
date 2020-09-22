@@ -1,40 +1,115 @@
 .cover {
-    align-items: flex-start;
+    // align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.64);
-    display: none;
+    display: block;
     height: 100%;
-    justify-content: center;
+    // justify-content: center;
     left: 0;
-    overflow-y: auto;
+
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 20;
+    z-index: -100;
 
-    &.active {
-        display: flex;
+    // &.active {
+    //     display: block;
+    // }
+}
+.task-details-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 20;
+    overflow-y: auto;
+}
+.task-details {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-header {
+    height: auto;
+    min-height: 116px;
+    padding: 0px;
+    position: relative;
+    background-size: contain;
+    background-origin: content-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 160px;
+    min-height: 160px;
+    padding: 0px;
+    .modal-btn {
+        background-color: hsla(0, 0%, 100%, 0.40);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin-right: 8px;
+        width: 70px;
+        &:hover{
+            background-color: hsla(0, 0%, 100%, 0.55);
+        }
+    }
+    .pop-up {
+        top: 116px;
+        right: 0.5rem;
     }
 }
 
+.modal-close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    padding: 7px;
+    margin: 4px;
+    width: 38px;
+    height: 38px;
+    transition: background-color 85ms, color 85ms;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.16);
+    }
+}
 .task-modal {
-    display: none;
+    display: flex;
+    flex-direction: column;
     position: relative;
     width: 768px;
-    min-height: 725px; // just for now
+    height: 100%;
     margin: 48px 0 80px;
     border-radius: 2px;
-    overflow: hidden;
-    background-color: #f4f5f7;
+    background-color: $bgc1;
     z-index: 25;
-    &.active {
-        display: flex;
-        position: absolute;
-    }
+}
+.task-content {
+    display: flex;
+    flex: 1;
 }
 .modal-module {
     width: 100%;
     text-align: start;
     margin-bottom: 20px;
+}
+
+.task-title {
+    font-size: rem(20px);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 12px 60px 8px 64px;
+    min-height: 32px;
+    position: relative;
+    z-index: 1;
+    .focusClass {
+        height: 32px;
+    }
 }
 
 .left-side {
@@ -48,6 +123,12 @@
         flex-wrap: wrap;
         .task-labels-list {
             margin-right: 5px;
+            position: relative;
+            .pop-up {
+                // right: 0;
+                top: unset;
+                right: unset;
+            }
         }
     }
     .task-description {
@@ -62,7 +143,7 @@
 
 .right-side {
     padding: 0 16px 8px 8px;
-    overflow: hidden;
+    // overflow: hidden;
     text-align: center;
     h3 {
         color: #5e6c84;
@@ -86,7 +167,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .task-modal {
+    .task-content {
         width: 100%;
         flex-direction: column;
         .left-side {

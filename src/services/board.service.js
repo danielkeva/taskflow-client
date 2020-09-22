@@ -183,8 +183,13 @@ function getEmptyTask() {
         dueDate: '',
         labels: [],
         isDone: false,
-        attachment: '',
-        checklists: []
+        images: [],
+        checklists: [],
+        cover: {
+            background: '',
+            isFull: null,
+            type: null
+        }
     }
 }
 function getEmptyCheckList(title = 'Checklist') {

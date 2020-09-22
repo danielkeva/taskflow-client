@@ -2,8 +2,7 @@ const initialState = {
     boards: null,
     currBoard: null,
     currTask: null,
-    onRemove:false,
-    onAdd:false
+    isExpanded: false
 };
 
 export const boardReducer = (state = initialState, action) => {
@@ -33,6 +32,11 @@ export const boardReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currTask: { ...action.currTask }
+            }
+        case 'TOGGLE_LABELS':
+            return {
+                ...state,
+                isExpanded: !state.isExpanded
             }
         default:
             return state

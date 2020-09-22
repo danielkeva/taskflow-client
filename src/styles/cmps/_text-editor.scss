@@ -6,6 +6,9 @@
   overflow: hidden;
   overflow-wrap: anywhere;
   white-space: break-spaces;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
   &:hover {
     cursor: text;
   }
@@ -17,6 +20,7 @@
   padding: 4px 8px;
   font-family: inherit;
   font-size: inherit;
+  font-weight: inherit;
   border: none;
   outline: none;
   background: #fff;

@@ -10,11 +10,6 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
     const enter = useKeyPress("Enter");
     const esc = useKeyPress("Escape");
 
-    // useEffect(() => {
-    //     if (isFocused) {
-    //         focusInput()
-    //     }
-    // }, [isFocused, isEditing])
 
     useEffect(() => {
         if (isEditing) {
@@ -80,6 +75,7 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
         type,
         {
             className: 'module-text',
+            dir: 'auto',
             onClick: () => { setIsEditing(true) }
         },
         text
@@ -118,8 +114,8 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
             {
                 isEditing ?
                     (!isWide ?
-                        <input type="text" ref={inputEl} autoFocus className="focusClass" name={name} defaultValue={text} onChange={test} onBlur={updateText} /> :
-                        <textarea  ref={inputEl} className="focusClass" autoFocus rows="5" name={name} defaultValue={text} onChange={handleTextareaChange} onBlur={updateText} />) :
+                        <input dir="auto" type="text" ref={inputEl} autoFocus className="focusClass" name={name} defaultValue={text} onChange={test} onBlur={updateText} /> :
+                        <textarea ref={inputEl} className="focusClass" autoFocus rows="5" name={name} defaultValue={text} onChange={handleTextareaChange} onBlur={updateText} />) :
                     ModuleText
             }
 

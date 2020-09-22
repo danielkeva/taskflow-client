@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { RiCloseLine } from "react-icons/ri";
 import { GoPencil } from "react-icons/go";
 
 import TextEditor from '../../TextEditor';
 import { useEffect } from 'react';
+import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 
 const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated }) => {
     const [selectedLabel, setSelectedLabel] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
+    const wrapperRef = useRef(null)
 
-
+    useOnClickOutside(wrapperRef, () => {
+        console.log('paamm ahat')
+        onCloseModal()
+    });
     const selectLabelToEdit = (label) => {
         setSelectedLabel({ ...label })
         setIsEditing(true)
@@ -30,30 +35,15 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
 
     useEffect(() => {
         if (!isEditing && selectedLabel) {
-            console.log('yesbabe');
             const taskCopy = JSON.parse(JSON.stringify(task));
             const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
             if (taskLabelIdx !== -1) {
-                console.log('yes');
                 taskCopy.labels.splice(taskLabelIdx, 1, selectedLabel)
                 onTaskUpdated(taskCopy)
             }
         }
 
     }, [isEditing])
-
-    // useEffect(() => {
-    //     if (!isEditing && selectedLabel) {
-    //         const taskCopy = JSON.parse(JSON.stringify(task));
-    //         const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
-    //         if (taskLabelIdx !== -1) {
-    //             console.log('yes');
-    //             taskCopy.labels.splice(taskLabelIdx, 1, selectedLabel)
-    //             onTaskUpdated(taskCopy)
-    //         }
-    //     }
-
-    // }, [isEditing])
 
 
     const toggleLabels = (selectedLabel) => {
@@ -77,10 +67,10 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
     }
 
     return (
-        <div className="pop-up labels">
+        <div className="pop-up labels" ref={wrapperRef}>
             <div className="pop-up-header">
                 <span className="pop-up-title">Labels</span>
-                <button className="pop-up-close-btn clear-btn" onClick={onCloseModal}>
+                <button className="pop-up-close-btn clear-btn icon-lg" onClick={onCloseModal}>
                     <RiCloseLine />
                 </button>
             </div>
