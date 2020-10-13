@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import useKeyPress from '../hooks/useKeypress'
+import useOnClickOutside from '../hooks/useOnClickOutSide'
 
-const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInput, onChange, onSubmit, onEscape }) => {
+const TextEditor = (props) => {
+    const {
+        type,
+        text,
+        name,
+        onInputBlur,
+        isWide,
+        isFocused,
+        onChange,
+        onSubmit,
+        onEscape,
+        placeholder = null,
+    } = props
     // const [textCopy, setText] = useState(text)
     const [isEditing, setIsEditing] = useState(false)
     const [initialText, setInitialText] = useState('')
@@ -23,18 +36,12 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
         if (isFocused) {
             setIsEditing(true)
         }
-    }, [isFocused, isEditing]);
+        // Check whether or not to change the isEditing state from the parent component (for bluring the input)
+        if (isFocused === false) {
 
-
-    useEffect(() => {
-        // check if 'blurInput' prop is passed from parent 
-        if (blurInput !== undefined && blurInput) {
-            //and wether or not to change the isEditing state from the parent component (for bluring the input)
             setIsEditing(false)
         }
-    }, [blurInput])
-
-
+    }, [isFocused, isEditing]);
 
     useEffect(() => {
         if (isEditing) {
@@ -74,16 +81,17 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
     const ModuleText = React.createElement(
         type,
         {
-            className: 'module-text',
+            className: `module-text  ${text ? '' : 'placeholder'}`,
             dir: 'auto',
             onClick: () => { setIsEditing(true) }
         },
-        text
+        text ? text : placeholder
     );
 
 
     const updateText = () => {
         if (onInputBlur) {
+            console.log('blur');
             setIsEditing(false)
             onInputBlur()
         }
@@ -115,7 +123,7 @@ const TextEditor = ({ type, text, name, onInputBlur, isWide, isFocused, blurInpu
                 isEditing ?
                     (!isWide ?
                         <input dir="auto" type="text" ref={inputEl} autoFocus className="focusClass" name={name} defaultValue={text} onChange={test} onBlur={updateText} /> :
-                        <textarea ref={inputEl} className="focusClass" autoFocus rows="5" name={name} defaultValue={text} onChange={handleTextareaChange} onBlur={updateText} />) :
+                        <textarea ref={inputEl} className="focusClass" autoFocus rows="5" name={name} defaultValue={text} onChange={handleTextareaChange} onBlur={updateText} placeholder={placeholder} />) :
                     ModuleText
             }
 

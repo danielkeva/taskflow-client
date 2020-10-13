@@ -20,6 +20,7 @@ const AddTaskList = ({ board, onBoardUpdated }) => {
     }
 
     const addTaskList = () => {
+        if (!newTaskList.title) return
         const boardCopy = JSON.parse(JSON.stringify(board));
         boardCopy.taskLists.push(newTaskList);
         onBoardUpdated(boardCopy)

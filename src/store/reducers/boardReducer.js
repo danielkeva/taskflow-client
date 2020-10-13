@@ -15,7 +15,8 @@ export const boardReducer = (state = initialState, action) => {
         case 'SET_BOARD':
             return {
                 ...state,
-                currBoard: JSON.parse(JSON.stringify(action.currBoard))
+                // currBoard: action.currBoard
+                currBoard: { ...action.currBoard }
             };
         case 'SET_TASK':
             let taskToUpdate;

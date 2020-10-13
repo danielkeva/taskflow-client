@@ -1,28 +1,29 @@
-import React from 'react';
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from './pages/HomePage';
 import MainNav from './components/MainNav';
-import BoardDetails from './pages/BoardDetails';
-// import { BoardContextProvider } from './store/contexts/BoardContext';
-import BoardsPage from './pages/BoardsPage';
-import { createBrowserHistory } from 'history';
-// const history = createBrowserHistory()
+// import BoardDetails from './pages/BoardDetails';
+
+// import BoardsPage from './pages/BoardsPage';
+const BoardDetails = lazy(() => import('./pages/BoardDetails'));
+const BoardsPage = lazy(() => import('./pages/BoardsPage'));
+
 
 function App() {
-  // console.log('d',process.env)
-
   return (
     <main>
-      <Router>
-        <MainNav />
-        <Switch>
-          <Route path="/board/:boardId" component={BoardDetails} />
-          <Route path="/boards" component={BoardsPage} />
-          <Route path="/" component={HomePage} />
-        </Switch>
-      </Router>
-     </main>
+        <Router>
+          <MainNav />
+          <Switch>
+      <Suspense fallback={<h1 style={{ paddingTop: '50px', fontSize: '100px' }}>Still Loading…</h1>}>
+            <Route path="/" component={HomePage} exact />
+            <Route path="/boards" component={BoardsPage} exact />
+            <Route path="/board/:boardId" component={BoardDetails}  />
+      </Suspense>
+          </Switch>
+        </Router>
+    </main>
   );
 }
 

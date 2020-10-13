@@ -47,6 +47,10 @@
         &.selected {
             box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
         }
+        &.disabled {
+            opacity: unset;
+            cursor: default;
+        }
         .half {
             height: 100%;
             clip-path: polygon(0 1%, 100% 1%, 100% 50%, 0 50%);
@@ -144,6 +148,7 @@
             // filter: opacity(80%);
             opacity: 0.8;
         }
+      
         &.selected {
             box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
         }
@@ -160,7 +165,7 @@
     [type="file"] + label {
         background: $btn1-clr;
         border: none;
-        color: $clr1;
+        color: $main-font-clr;
         cursor: pointer;
         font-weight: 600;
         outline: none;

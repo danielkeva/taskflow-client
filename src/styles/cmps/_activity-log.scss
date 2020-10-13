@@ -1,0 +1,37 @@
+.activity-log {
+    padding: 6px 6px 6px 15px;
+    position: relative;
+    .activity-content {
+        // margin-left: 40px;
+        min-height: 32px;
+        padding: 8px 0;
+        position: relative;
+    }
+    .modal-btn {
+        position: absolute;
+        right: 0;
+        top: -38px;
+        width: 110px;
+        margin-right: 6px;
+    }
+    .show-more-btn {
+        text-decoration: underline;
+        margin-top: 8px;
+        font-weight: 600;
+        color: #5e6c84;
+        &:hover {
+            color: inherit;
+        }
+    }
+    .activity-desc {
+        overflow-wrap: break-word;
+        a {
+            text-decoration: underline;
+            font-weight: 600;
+            color: #5e6c84;
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+}

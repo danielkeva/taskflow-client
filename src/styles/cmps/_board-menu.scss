@@ -1,0 +1,70 @@
+.board-menu {
+    background-color: $bgc-grey;
+    box-shadow: 0 12px 24px -6px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+    width: 305px;
+    height: calc(100vh - 80px);
+    position: fixed;
+    right: 0px;
+    top: 80px;
+    transform: translateX(105%);
+    transition: transform 0.4s;
+    z-index: 1;
+    &.menu-open {
+        transform: translateX(0%);
+    }
+    .pop-up-header {
+        // padding: 0 32px;
+        font-size: rem(16px);
+        &.activity-title {
+            text-align: unset;
+        }
+    }
+    .board-menu-content {
+        padding: 12px 6px 12px 12px;
+        height: calc(100% - 40px);
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .section-title {
+        font-size: rem(14px);
+        .icon-sm {
+            font-size: rem(14px);
+            margin-right: 8px;
+        }
+    }
+}
+
+.board-menu-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .board-menu-nav-btn {
+        font-weight: 700;
+        padding: 6px 6px 6px 15px;
+        width: 100%;
+        text-align: left;
+        border-radius: 3px;
+        font-size: rem(16px);
+        &:hover {
+            background-color: $btn1-hover-clr;
+        }
+    }
+}
+
+.open-menu-btn {
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    color: #ffffff;
+    // color: $main-font-clr2;
+    background-color: rgba(255, 255, 255, 0.24);
+    padding: 5px 14px;
+    .icon-sm {
+        line-height: 1px;
+        margin-right: 5px;
+    }
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.32);
+    }
+}

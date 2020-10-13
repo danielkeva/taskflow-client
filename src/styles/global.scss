@@ -13,6 +13,7 @@
 @import "views/task-details";
 
 // COMPONENTS
+@import "cmps/board-menu";
 @import "cmps/text-editor";
 @import "cmps/task-list";
 @import "cmps/task-actions";
@@ -22,3 +23,6 @@
 @import "cmps/cover-picker";
 @import "cmps/labels-list";
 @import "cmps/checklist";
+@import "cmps/main-navbar";
+@import "cmps/bg-picker";
+@import "cmps/activity-log";

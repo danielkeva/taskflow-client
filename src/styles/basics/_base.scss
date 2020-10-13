@@ -4,15 +4,20 @@
 html {
     font-family: Lato;
     height: 100%;
-    width: 100%;
+
+    //  Fitting html's width with the list-container's width
+    //   React-beautiful-dnd doesn't support two scrolling parent
+    //   Can be removed once https://github.com/atlassian/react-beautiful-dnd/issues/131 is fixed
+    min-width: max-content;
 }
+
 body {
     height: 100%;
     width: 100%;
     margin: 0;
     font-size: rem(14px);
-    color: $clr1;
-    // overflow: hidden;
+    color: $main-font-clr;
+    background-color: #026aa7;
 }
 html,
 body,
@@ -37,21 +42,28 @@ ul {
 
 h1,
 h2,
-h3 {
-    // font-family: GreatVibes, serif;
+h3,
+h4 {
     margin: 0;
+    font-size: inherit;
 }
 
 p {
     margin: 0;
 }
 
-// button,
-// input,
-// select,
-// textarea {
-//     font-family: inherit;
-//     font-size: inherit;
-//     line-height: inherit;
-//     color: inherit;
+.testit {
+    background-color: #eb5a46;
+    border-radius: 3px;
+    color: #fff;
+}
+
+// label{
+//     background-color: red;
+//     display: inline;
+//     .checkbox{
+//         // display: none;
+//         visibility: hidden;
+//     }
+
 // }

@@ -2,21 +2,53 @@
     flex: 1;
 }
 
+.task-checklist {
+    margin-bottom: 24px;
+    // h3{
+    //     display: flex;
+    //     color: $main-font-clr2;
+    //     font-family: LatoBold;
+    //     font-weight: 600;
+    //     padding: 6px 6px 6px 0;
+    //     line-height: 14px;
+    //     font-size: rem(16px);
+    // }
+    .add-item {
+    margin-left: 40px;
+        .focusClass {
+            padding: 8px 12px 40px;
+        }
+    }
+}
 .checklist-item {
+    padding: 8px 12px;
+
     &:hover {
         background-color: rgba(9, 30, 66, 0.04);
         cursor: pointer;
     }
 
-    .checklist-item-edit {
+    .checklist-item-editor {
         display: flex;
-        // align-items: center;
+        align-items: center;
+        position: relative;
+        .item-title {
+            width: 100%;
+        }
+        .focusClass {
+            padding: 8px 12px 40px;
+            background: rgba(9, 30, 66, 0.04);
+            border-color: rgba(9, 30, 66, 0.13);
+            box-shadow: inset 0 0 0 1px rgba(9, 30, 66, 0.13);
+        }
         .remove-item-btn {
             display: none;
         }
         &:hover {
             .remove-item-btn {
                 display: block;
+                position: absolute;
+                right: 0;
                 margin-right: 10px;
             }
         }
@@ -24,6 +56,26 @@
             .module-text {
                 text-decoration: line-through;
             }
+        }
+    }
+}
+
+.add-item-controls {
+    display: flex;
+    .icon-lg {
+        align-self: flex-end;
+    }
+}
+
+.checklist-user-msg {
+    color: $main-font-clr2;
+    :not(:last-child) {
+        margin-right: 5px;
+    }
+    .clear-btn {
+        text-decoration: underline;
+        &:hover {
+            color: #172b4d;
         }
     }
 }

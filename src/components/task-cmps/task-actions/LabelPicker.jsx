@@ -8,18 +8,22 @@ import { useEffect } from 'react';
 import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 
-const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated }) => {
+const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated, bounds, exceptionRef }) => {
     const [selectedLabel, setSelectedLabel] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
     const wrapperRef = useRef(null)
 
     useOnClickOutside(wrapperRef, () => {
-        console.log('paamm ahat')
         onCloseModal()
-    });
+    }, exceptionRef);
+
     const selectLabelToEdit = (label) => {
-        setSelectedLabel({ ...label })
-        setIsEditing(true)
+        if (selectedLabel !== null && selectedLabel.id === label.id) {
+            setIsEditing(false)
+        } else {
+            setSelectedLabel({ ...label })
+            setIsEditing(true)
+        }
     }
 
     const handleChange = (ev) => {
@@ -31,6 +35,7 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
         labelsCopy.splice(labelIdx, 1, selectedLabel)
         labelsUpdated([...labelsCopy], selectedLabel)
         setIsEditing(false);
+        setSelectedLabel(null)
     }
 
     useEffect(() => {
@@ -65,9 +70,9 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
             return label.id === selectedLabel.id
         }
     }
-
     return (
-        <div className="pop-up labels" ref={wrapperRef}>
+
+        <div className="pop-up labels" ref={wrapperRef} style={bounds}>
             <div className="pop-up-header">
                 <span className="pop-up-title">Labels</span>
                 <button className="pop-up-close-btn clear-btn icon-lg" onClick={onCloseModal}>
@@ -82,7 +87,7 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
                             style={{ backgroundColor: label.color }}
                             onClick={() => toggleLabels(label)}
                         >
-                            {<span className="label-title">{label.title}</span>}
+                            {!labelToEdit(label) && <span className="label-title">{label.title}</span>}
                             {labelToEdit(label) && isEditing && <TextEditor
                                 type="p"
                                 name="title"
@@ -94,9 +99,9 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated 
                             <span className="label-selected">
                             </span>
                         </span>
-                        <a href="#" onClick={() => selectLabelToEdit(label)}>
+                        <button className="clear-btn" onClick={() => selectLabelToEdit(label)}>
                             <GoPencil />
-                        </a>
+                        </button>
                     </li>
                 ))}
             </ul>

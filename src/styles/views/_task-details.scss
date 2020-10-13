@@ -1,38 +1,49 @@
 .cover {
-    // align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.64);
     display: block;
     height: 100%;
-    // justify-content: center;
     left: 0;
-
     position: fixed;
     top: 0;
     width: 100%;
     z-index: -100;
-
-    // &.active {
-    //     display: block;
-    // }
 }
 .task-details-wrapper {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 20;
     overflow-y: auto;
 }
 .task-details {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
-
+.task-modal {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 768px;
+    z-index: 25;
+    border-radius: 2px;
+    background-color: #f4f5f7;
+    margin: 48px 0 48px 0;
+    min-height: 600px;
+    /* height: 100%; */
+}
 .modal-header {
     height: auto;
     min-height: 116px;
@@ -46,18 +57,18 @@
     min-height: 160px;
     padding: 0px;
     .modal-btn {
-        background-color: hsla(0, 0%, 100%, 0.40);
+        background-color: hsla(0, 0%, 100%, 0.4);
         position: absolute;
         bottom: 0;
         right: 0;
         margin-right: 8px;
         width: 70px;
-        &:hover{
+        &:hover {
             background-color: hsla(0, 0%, 100%, 0.55);
         }
     }
     .pop-up {
-        top: 116px;
+        top: 100%;
         right: 0.5rem;
     }
 }
@@ -78,17 +89,7 @@
         background-color: rgba(0, 0, 0, 0.16);
     }
 }
-.task-modal {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 768px;
-    height: 100%;
-    margin: 48px 0 80px;
-    border-radius: 2px;
-    background-color: $bgc1;
-    z-index: 25;
-}
+
 .task-content {
     display: flex;
     flex: 1;
@@ -111,7 +112,12 @@
         height: 32px;
     }
 }
-
+.task-item-title {
+    text-transform: uppercase;
+    margin: 0 8px 4px 0;
+    font-weight: 500;
+    font-size: rem(12px);
+}
 .left-side {
     flex: 2;
     display: flex;
@@ -121,32 +127,68 @@
     .task-labels-date {
         display: flex;
         flex-wrap: wrap;
-        .task-labels-list {
-            margin-right: 5px;
+
+        .task-labels {
             position: relative;
-            .pop-up {
-                // right: 0;
-                top: unset;
-                right: unset;
+            .task-labels-list {
+                margin-right: 5px;
+                display: flex;
+                .label {
+                    height: 32px;
+                }
             }
+        }
+        .task-due-date {
+            margin: 0 0 0 6px;
+            .modal-btn {
+                display: flex;
+                align-items: center;
+                margin: 0;
+                width: unset;
+                height: unset;
+                max-width: 300px;
+                padding: 6px 0 6px 12px;
+                label {
+                    margin-right: 10px;
+                }
+                .icon-lg {
+                    vertical-align: middle;
+                    margin: 0 4px;
+                }
+            }
+            .task-badge {
+                font-size: rem(12px);
+                margin-left: 4px;
+                padding: 2px 4px;
+                text-transform: uppercase;
+            }
+        }
+        .pop-up {
+            position: absolute;
+            top: unset;
+            right: unset;
         }
     }
     .task-description {
         display: flex;
-        align-items: center;
-        :first-child {
-            margin-right: 10px;
-            font-size: rem(24px);
+        flex-direction: column;
+        .module-text {
+            &.placeholder {
+                background-color: rgba(9, 30, 66, 0.04);
+                border-radius: 3px;
+                min-height: 60px;
+                padding: 8px 12px;
+            }
         }
     }
 }
 
 .right-side {
     padding: 0 16px 8px 8px;
-    // overflow: hidden;
     text-align: center;
+    height: 100%;
     h3 {
-        color: #5e6c84;
+        color: $main-font-clr2;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.04em;
@@ -159,7 +201,7 @@
     .modal-sidebar {
         display: flex;
         flex-direction: column;
-
+        height: 100%;
         .modal-btn {
             width: 160px;
         }
@@ -167,6 +209,12 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .task-modal {
+        margin: 36px 8px;
+    }
+    .pop-up {
+        position: absolute;
+    }
     .task-content {
         width: 100%;
         flex-direction: column;

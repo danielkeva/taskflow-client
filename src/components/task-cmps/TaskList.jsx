@@ -1,17 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, memo } from 'react'
 import { BsThreeDots } from "react-icons/bs";
 import { Droppable } from "react-beautiful-dnd";
-import SimpleBar from 'simplebar-react';
-import 'simplebar/dist/simplebar.min.css';
 
-// import 'simplebar/dist/simplebar.min.css';
 import TaskPreview from './TaskPreview'
 import TextEditor from '../TextEditor'
 import ListMenu from './ListMenu';
 import { boardService } from '../../services/board.service';
 import useOnClickOutside from '../../hooks/useOnClickOutSide';
 import { RiCloseLine, RiAddLine } from 'react-icons/ri';
-
+import { useRouteMatch } from 'react-router-dom';
 
 
 
@@ -21,17 +18,13 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
     const [taskListCopy, setTaskListCopy] = useState({ ...taskList })
     const [newTask, setNewTask] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
-
-
-
-
+    let { url } = useRouteMatch();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const wrapperRef = useRef(null)
 
     useEffect(() => {
         setTaskListCopy({ ...taskList })
     }, [taskList])
-
 
     const getEmptyTask = () => {
         setIsMenuOpen(false)
@@ -51,11 +44,12 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
     const handleListRemove = () => {
         onRemoveList(taskList.id)
     }
-    const updateList = (updatedTaskList) => {
+    const updateList = (updatedTaskList, newActivity) => {
         if (updatedTaskList) {
-            onListUpdated(updatedTaskList)
-        } else {
-            onListUpdated(taskListCopy)
+            onListUpdated(updatedTaskList, newActivity)
+        } else { // when task list title is edited
+            if (taskListCopy.title === taskList.title) return;
+            onListUpdated(taskListCopy) 
         }
         setIsEditing(false)
         setNewTask(null)
@@ -65,7 +59,12 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
         if (newTask && newTask.title) {
             const updatedTaskList = JSON.parse(JSON.stringify(taskListCopy));
             updatedTaskList.tasks.push(newTask)
-            await updateList(updatedTaskList)
+            const newActivity = boardService.newActivity(
+                `Added this card to ${updatedTaskList.title}`,
+                `Added  [${newTask.title}](${url}/${newTask.id}) to ${updatedTaskList.title}`,
+                newTask.id
+            )
+            await updateList(updatedTaskList, newActivity)
             if (clickSource === 'clickedOutside') return; // if click is outside the ref wrapper end editing
             setNewTask(null)
             getEmptyTask()
@@ -83,6 +82,9 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
         setNewTask(null)
         setIsEditing(false)
     }
+
+
+
     return (
         taskListCopy &&
         <div className="list-wrapper"
@@ -90,7 +92,6 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
             {...provided.draggableProps}
         >
             <div className="list">
-
                 <div className="list-header" {...provided.dragHandleProps}>
                     {taskListCopy.title &&
                         <TextEditor
@@ -105,12 +106,12 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
                     </button>
                     {isMenuOpen && !isEditing && <ListMenu onRemoveList={handleListRemove} onAddTask={getEmptyTask} onCloseMenu={() => setIsMenuOpen(false)} />}
                 </div>
+                <div className="overs">
+                    <Droppable type="task" droppableId={`${taskListIdx}`}>
+                        {provided => (
 
-                <Droppable type="task" droppableId={`${taskListIdx}`}>
-                    {provided => (
-                        <div className="list-content " ref={provided.innerRef}>
 
-                            {/* <div className="list-content-scrollable u-fancy-scrollbar"> */}
+                            <div className="list-content custom-scrollbar" ref={provided.innerRef} >
                                 {taskList.tasks.map((task, index) => (
                                     <TaskPreview key={task.id} task={task} index={index} />
                                 ))}
@@ -133,12 +134,14 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
                                     </div>
 
                                 </div>}
-                            {/* </div> */}
-                            {provided.placeholder}
+                                {/* </div> */}
+                                {provided.placeholder}
 
-                        </div>
-                    )}
-                </Droppable>
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+
                 <div className="list-footer">
                     {(!isEditing && !newTask) &&
                         <a className="clear-btn list-footer-btn" onClick={getEmptyTask}  >
@@ -152,4 +155,4 @@ const TaskList = ({ provided, innerRef, taskList, taskListIdx, onListUpdated, on
     )
 }
 
-export default TaskList
+export default TaskList;

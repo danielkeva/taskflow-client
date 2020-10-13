@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadBoards } from '../store/actions/boardActions'
 
 const BoardsPage = () => {
+    const history = useHistory();
+
+    console.log('history', history);
     // const { loadBoards, boards } = useContext(BoardContext)
     const boards = useSelector(state => state.board.boards);
     const dispatch = useDispatch();

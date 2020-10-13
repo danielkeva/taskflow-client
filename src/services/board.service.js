@@ -10,7 +10,79 @@ export const boardService = {
     getEmptyCheckList,
     getEmptyListItem,
     newActivity,
+    getActivities,
+    addActivity
     // save
+}
+
+function query() {
+    return HttpService.get('board')
+}
+async function getById(id) {
+    const currBoard = await HttpService.get(`board/${id}`)
+    return currBoard
+}
+async function update(board) {
+    return HttpService.put(`board/${board._id}`, board)
+}
+function getActivities(boardId) {
+    return HttpService.get(`activity/${boardId}`)
+}
+function addActivity(boardId, newActivity) {
+    return HttpService.put(`activity/${boardId}`, newActivity)
+}
+
+function getEmptyList() {
+    return {
+        id: utilService.makeId(),
+        title: '',
+        theme: 'white',
+        tasks: []
+    }
+}
+function getEmptyTask() {
+    return {
+        id: utilService.makeId(),
+        title: '',
+        description: '',
+        creatorId: '',
+        membersId: [],
+        comments: [],
+        dueDate: '',
+        labels: [],
+        isDone: false,
+        images: [],
+        checklists: [],
+        cover: {
+            background: '',
+            isFull: null,
+            type: null
+        }
+    }
+}
+function getEmptyCheckList(title = 'Checklist') {
+    return {
+        id: utilService.makeId(),
+        title,
+        listItems: [],
+    }
+}
+function getEmptyListItem() {
+    return {
+        id: utilService.makeId(),
+        title: '',
+        isDone: false
+    }
+}
+
+function newActivity(cardTxt, boardTxt, taskId) {
+    return {
+        id: utilService.makeId(),
+        cardTxt, // text to display without link to the card
+        boardTxt, // text to display with link to the card
+        taskId,
+        date: Date.now()
+    }
 }
 
 
@@ -142,86 +214,6 @@ export const boardService = {
 
 // }
 
-function query() {
-    return HttpService.get('board')
-}
-
-async function getById(id) {
-    const currBoard = await HttpService.get(`board/${id}`)
-    return currBoard
-}
-// function save(newBoard) {
-//     board = newBoard
-//     return JSON.parse(JSON.stringify(board))
-// }
-
-
-function update(board) {
-    // console.log('board');
-    return HttpService.put(`board/${board._id}`, board)
-}
-
-
-
-function getEmptyList() {
-    return {
-        id: utilService.makeId(),
-        title: '',
-        theme: 'white',
-        tasks: []
-    }
-}
-
-function getEmptyTask() {
-    return {
-        id: utilService.makeId(),
-        title: '',
-        description: '',
-        creatorId: '',
-        membersId: [],
-        comments: [],
-        dueDate: '',
-        labels: [],
-        isDone: false,
-        images: [],
-        checklists: [],
-        cover: {
-            background: '',
-            isFull: null,
-            type: null
-        }
-    }
-}
-function getEmptyCheckList(title = 'Checklist') {
-    return {
-        id: utilService.makeId(),
-        title,
-        listItems: []
-    }
-}
-function getEmptyListItem() {
-    return {
-        id: utilService.makeId(),
-        title: '',
-        isDone: false
-    }
-}
-
-function newActivity(cardTxt, boardTxt, taskId) {
-    return {
-        id: utilService.makeId(),
-        cardTxt, // text to display without link to the card
-        boardTxt, // text to display with link to the card
-        taskId,
-        date: Date.now()
-    }
-}
-
-// function getTaskById(taskId) {
-//     for (let i = 0; i < board.taskLists.length; i++) {
-//         var task = board.taskLists[i].tasks.find(task => task.id === taskId)
-//         if (task) {
-//             return task
-//         }
-//     }
-// }
+// async function stall(stallTime = 3000) {
+//     await new Promise(resolve => setTimeout(resolve, stallTime));
+//   }

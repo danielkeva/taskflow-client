@@ -21,19 +21,22 @@ export function getBoardById(id) {
             console.warn('cannot save board', err)
             throw err
         }
-
     }
-
 }
 
 export function saveBoard(updatedBoard) {
-    return async dispatch => {
-        const boardCopy = JSON.parse(JSON.stringify(updatedBoard));
-        dispatch({ type: 'SET_BOARD', currBoard: boardCopy })
-        const savedBoard = await boardService.update(boardCopy)
-        socketService.emit('update board', savedBoard);
-        console.log('afte boarrd saved', savedBoard);
-        dispatch({ type: 'SET_BOARD', currBoard: savedBoard })
+    return async (dispatch, getState) => {
+        const prevBoard = getState().board.currBoard
+        dispatch({ type: 'SET_BOARD', currBoard: updatedBoard })
+        try {
+            const savedBoard = await boardService.update(updatedBoard)
+            console.log('after board saved', savedBoard)
+            socketService.emit('update board', savedBoard);
+        } catch (error) {
+            dispatch({ type: 'SET_BOARD', currBoard: prevBoard })
+            console.log('Err: Board saving failed')
+
+        }
     }
 }
 export function setCurrBoard(updatedBoard) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -7,6 +7,7 @@ import Color, { Palette } from "color-thief-react";
 
 import cloudinaryService from '../../../services/cloudinary.service';
 import { utilService } from '../../../services/util.service';
+import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 
 const HalfBgcWrapper = styled.div`
@@ -28,11 +29,15 @@ ${props => props.cover.type === 'color' ?
     }
 `;
 
-const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
+const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }) => {
     const [selectedCover, setSelectedCover] = useState(task.cover)
     const [loading, setLoading] = useState(false);
 
-
+    const wrapperRef = useRef(null)
+    
+    useOnClickOutside(wrapperRef, () => {
+        onCloseModal()
+    }, exceptionRef);
 
     const coverColors = [
         '#61bd4f',
@@ -41,7 +46,6 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
         '#c377e0',
         '#eb5a46',
         '#055a8c',
-        // '#344563',
         '#705cc1',
         '#00c2e0',
         '#ff78cb',
@@ -60,6 +64,7 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
         onTaskUpdated(taskCopy)
     }
     const handleLayout = (isFull) => {
+        if (!task.cover.background) return;
         setSelectedCover({ ...selectedCover, isFull: isFull })
         const taskCopy = { ...task }
         taskCopy.cover.isFull = isFull
@@ -92,12 +97,11 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
         taskCopy.cover = { ...taskCopy.cover, background: null, type: null, isFull: null, theme: null }
         // console.log('task', taskCopy);
         onTaskUpdated(taskCopy)
+        onCloseModal()
     }
     return (
 
-        <div className="pop-up cover-picker" ref={wrapperRef}>
-
-
+        <div className={`pop-up cover-picker ${bounds ? '' : 'absolute'}`} ref={wrapperRef} style={bounds}>
             <div className="pop-up-header">
                 <span className="pop-up-title">Cover</span>
                 <button className="pop-up-close-btn clear-btn icon-lg" onClick={onCloseModal}>
@@ -108,7 +112,7 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
             <div className="cover-size-picker">
                 <FullBgcWrapper
                     cover={selectedCover}
-                    className={'cover-size ' + (selectedCover.isFull ? 'selected' : '')}
+                    className={'cover-size ' + (task.cover.background ? (selectedCover.isFull ? 'selected' : '') : 'disabled')}
                     onClick={() => handleLayout(true)}
                 >
                     <div className={`line-wrapper ${task.cover.type === 'img' ? (task.cover.theme === 'dark' ? 'dark' : '') : ''}`}>
@@ -118,7 +122,7 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
                     </div>
                 </FullBgcWrapper>
                 <div
-                    className={'cover-size half ' + (selectedCover.isFull ? '' : 'selected')}
+                    className={'cover-size half ' + (task.cover.background ? (selectedCover.isFull ? '' : 'selected') : 'disabled')}
                     onClick={() => handleLayout(false)}>
                     <HalfBgcWrapper className="half" cover={selectedCover}></HalfBgcWrapper>
                     <div className="line-wrapper">
@@ -128,7 +132,7 @@ const CoverPicker = ({ wrapperRef, task, onCloseModal, onTaskUpdated, }) => {
                     </div>
                 </div>
             </div>
-            <button className="modal-btn" onClick={handleRemove}>Remove Cover</button>
+            {task.cover.background && <button className="modal-btn" onClick={handleRemove}>Remove Cover</button>}
             {(selectedCover.type === 'img' && selectedCover.isFull) &&
                 <div className="cover-txt-color">
                     <span className="pop-up-title">Text color</span>

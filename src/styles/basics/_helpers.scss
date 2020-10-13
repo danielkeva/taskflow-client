@@ -34,17 +34,19 @@
   outline-offset: 3px;
 }
 
+.absolute {
+  position: absolute !important;
+}
 .pop-up {
   display: flex;
   flex-direction: column;
   padding: 0 10px;
-  position: absolute;
-  top: rem(8px);
-  right: rem(8px);
+  position: fixed;
+  top: 0;
+  right: 0;
   background: #fff;
   border-radius: 3px;
   box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
-  overflow: hidden;
   width: 304px;
   z-index: 70;
 }
@@ -52,25 +54,50 @@
 .pop-up-header {
   text-align: center;
   position: relative;
-  color: #5e6c84;
+  color: $main-font-clr2;
   line-height: 40px;
   border-bottom: 1px solid rgba(9, 30, 66, 0.13);
   overflow: hidden;
-  padding: 0 32px;
+  // padding: 0 32px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin: 0 10px;
 }
 .pop-up-close-btn {
   color: #6b778c;
   position: absolute;
-  right: 6px;
+  right: 0;
   top: 8px;
+  &:hover {
+    color: #3f4652;
+  }
 }
-
+.pop-up-back-btn {
+  color: #6b778c;
+  position: fixed;
+  left: 0;
+  top: 8px;
+  &:hover {
+    color: #3f4652;
+  }
+}
+.section-title {
+  display: flex;
+  color: $main-font-clr2;
+  font-family: LatoBold;
+  font-weight: 600;
+  padding: 6px 6px 6px 0;
+  // line-height: 14px;
+  font-size: rem(16px);
+}
 .clear-btn {
   border: 0;
   padding: 0;
   background-color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  text-transform: capitalize;
   &:focus {
     outline: 0;
   }
@@ -96,7 +123,10 @@
 }
 
 .icon-sm {
-  font-size: rem(18px);
+  font-size: rem(14px);
+}
+.icon-md {
+  font-size: rem(16px);
 }
 
 .modal-btn {
