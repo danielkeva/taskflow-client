@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import TextEditor from '../../../TextEditor'
-import { boardService } from '../../../../services/board.service'
-import useOnClickOutside from '../../../../hooks/useOnClickOutSide'
-import { useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { toggleInitialAddition } from '../../../../store/actions/generalAction';
+import React, { useEffect, useState,useRef } from 'react'
 import { useRouteMatch } from 'react-router-dom'
-const ChecklistPicker = ({ task, onTaskUpdated, onCloseModal, bounds, sidebarRef }) => {
+import { toggleInitialAddition } from '../../../../store/actions/generalAction';
+import { useDispatch } from 'react-redux'
+import useOnClickOutside from '../../../../hooks/useOnClickOutSide'
+
+import { boardService } from '../../../../services/board.service'
+
+import TextEditor from '../../../TextEditor'
+
+const ChecklistPicker = ({ card, onCardUpdated, onCloseModal, bounds, sidebarRef }) => {
     const [checklist, setChecklist] = useState({})
     const wrapperRef = useRef(null)
     const { url } = useRouteMatch();
@@ -25,16 +27,16 @@ const ChecklistPicker = ({ task, onTaskUpdated, onCloseModal, bounds, sidebarRef
         setChecklist({ ...checklist, [ev.target.name]: ev.target.value })
     }
     const addChecklist = () => {
-        const taskCopy = JSON.parse(JSON.stringify(task));
+        const cardCopy = JSON.parse(JSON.stringify(card));
         const checklistCopy = { ...checklist }
-        taskCopy.checklists.push(checklistCopy)
+        cardCopy.checklists.push(checklistCopy)
         const newActivity = boardService.newActivity(
             `Added ${checklist.title}  on this card`,
-            `Added ${checklist.title} on [${task.title}](${url})`,
-            task.id
+            `Added ${checklist.title} on [${card.title}](${url})`,
+            card.id
         )
-        onTaskUpdated(taskCopy, newActivity)
-        dispatch(toggleInitialAddition(true)) // Dispatching this action to start editing on TaskChecklist cmp 
+        onCardUpdated(cardCopy, newActivity)
+        dispatch(toggleInitialAddition(true)) // Dispatching this action to start editing on CardChecklist cmp 
         onCloseModal()
     }
     return (

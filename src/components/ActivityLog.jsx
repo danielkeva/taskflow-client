@@ -1,12 +1,12 @@
-import React, { memo, useMemo, useState } from 'react'
+import React, { memo, useMemo, useState,useEffect } from 'react'
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
+
 import Moment from 'react-moment';
-import { useEffect } from 'react';
-import { useHistory, } from 'react-router-dom';
-import DOMPurify from "dompurify";
-// import ReactCommonmark from 'react-commonmark'
 import Markdown from 'markdown-to-jsx';
+// import DOMPurify from "dompurify";
+// import ReactCommonmark from 'react-commonmark'
 
 const calendarStrings = {
     lastDay: '[Yesterday at] LT',
@@ -21,13 +21,13 @@ const LIMIT = 5;
 const filteredActivities = () =>
     createSelector(
         state => state.activity.activities,
-        (_, taskId) => taskId,
-        (activities, taskId) => taskId ? activities.filter(activity => activity.taskId === taskId) : activities
+        (_, cardId) => cardId,
+        (activities, cardId) => cardId ? activities.filter(activity => activity.cardId === cardId) : activities
     );
 
-const ActivityLog = ({ taskId = null }) => {
+const ActivityLog = ({ cardId = null }) => {
     const selectFilteredActivities = useMemo(filteredActivities, []) // Ensuring that each component instance gets its own selector instance
-    const activities = useSelector(state => selectFilteredActivities(state, taskId))
+    const activities = useSelector(state => selectFilteredActivities(state, cardId))
 
     const [showContent, setShowContent] = useState(true);
     const [showMore, setShowMore] = useState(true);
@@ -57,7 +57,7 @@ const ActivityLog = ({ taskId = null }) => {
     }
 
     useEffect(() => {
-        if (!taskId) {
+        if (!cardId) {
             const parentNode = document.getElementById('boardActivity')
             if (parentNode && parentNode.childNodes[1]) {
                 parentNode.childNodes[1].addEventListener('click', handleAnchorClick)
@@ -77,10 +77,10 @@ const ActivityLog = ({ taskId = null }) => {
     }
     return (
         <div className="activity-log">
-            {taskId && <button className="modal-btn" onClick={toggleContent}>{showContent ? 'Hide details' : 'Show details'}</button>}
+            {cardId && <button className="modal-btn" onClick={toggleContent}>{showContent ? 'Hide details' : 'Show details'}</button>}
             {showContent && list.length > 0 && list.map(activity => (
                 <div className='activity-content' key={activity.id}>
-                    {taskId ?
+                    {cardId ?
                         <p className="activity-desc">{activity.cardTxt}</p> :
                         <Markdown className="activity-desc" id='boardActivity' options={{ forceBlock: true }}>{activity.boardTxt}</Markdown>}
                     <Moment calendar={calendarStrings}>{activity.date}</Moment>

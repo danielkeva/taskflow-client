@@ -5,25 +5,30 @@ export const boardService = {
     query,
     getById,
     update,
+    save,
     getEmptyList,
-    getEmptyTask,
+    getEmptyCard,
     getEmptyCheckList,
     getEmptyListItem,
     newActivity,
     getActivities,
-    addActivity
-    // save
+    addActivity,
+    getEmptyBoard,
 }
 
-function query() {
-    return HttpService.get('board')
+async function query() {
+    // const params =  new URLSearchParams(userId)
+    // console.log('params', params)
+    return await HttpService.get('board')
 }
 async function getById(id) {
-    const currBoard = await HttpService.get(`board/${id}`)
-    return currBoard
+    return await HttpService.get(`board/${id}`)
 }
 async function update(board) {
     return HttpService.put(`board/${board._id}`, board)
+}
+async function save(board) {
+    return HttpService.post('board', board)
 }
 function getActivities(boardId) {
     return HttpService.get(`activity/${boardId}`)
@@ -32,15 +37,78 @@ function addActivity(boardId, newActivity) {
     return HttpService.put(`activity/${boardId}`, newActivity)
 }
 
+
+function getEmptyBoard() {
+    const newBoard = {
+        style: {
+            background: "#61bd4f",
+            type: "color"
+        },
+        activities: [],
+        privacy: '',
+        users: [],
+        cardLists: [getEmptyList()],
+        labels: [
+            {
+                id: "label1xa",
+                title: "",
+                color: "#61bd4f"
+            },
+            {
+                id: "label2xe",
+                title: "",
+                color: "#f2d600"
+            },
+            {
+                id: "label3qza",
+                title: "",
+                color: "#ff9f1a"
+            },
+            {
+                id: "label4qpa",
+                title: "",
+                color: "#c377e0"
+            },
+            {
+                id: "label5uxa",
+                title: "",
+                color: "#eb5a46"
+            },
+            {
+                id: "label6wwe",
+                title: "",
+                color: "#055a8c"
+            },
+            {
+                id: "label7qioia",
+                title: "",
+                color: "#344563"
+            },
+            {
+                id: "label8aaza",
+                title: "",
+                color: "#00c2e0"
+            },
+            {
+                id: "label9wlza",
+                title: "",
+                color: "#ff78cb"
+            }
+        ],
+    }
+
+    return newBoard
+}
+
 function getEmptyList() {
     return {
         id: utilService.makeId(),
         title: '',
         theme: 'white',
-        tasks: []
+        cards: []
     }
 }
-function getEmptyTask() {
+function getEmptyCard() {
     return {
         id: utilService.makeId(),
         title: '',
@@ -60,6 +128,7 @@ function getEmptyTask() {
         }
     }
 }
+
 function getEmptyCheckList(title = 'Checklist') {
     return {
         id: utilService.makeId(),
@@ -67,6 +136,7 @@ function getEmptyCheckList(title = 'Checklist') {
         listItems: [],
     }
 }
+
 function getEmptyListItem() {
     return {
         id: utilService.makeId(),
@@ -75,12 +145,12 @@ function getEmptyListItem() {
     }
 }
 
-function newActivity(cardTxt, boardTxt, taskId) {
+function newActivity(cardTxt, boardTxt, cardId) {
     return {
-        id: utilService.makeId(),
+        id: utilService.makeId(7),
         cardTxt, // text to display without link to the card
         boardTxt, // text to display with link to the card
-        taskId,
+        cardId,
         date: Date.now()
     }
 }
@@ -142,17 +212,17 @@ function newActivity(cardTxt, boardTxt, taskId) {
 //             color: '#ff78cb',
 //         },
 //     ],
-//     taskLists: [
+//     cardLists: [
 //         {
 //             id: 'list1',
 //             title: 'This is the list title',
 //             theme: 'white',
-//             tasks: [
+//             cards: [
 //                 {
-//                     taskListId: 'list1',
-//                     id: 'task1',
-//                     title: 'This is the task title',
-//                     description: 'This is the task description',
+//                     cardListId: 'list1',
+//                     id: 'card1',
+//                     title: 'This is the card title',
+//                     description: 'This is the card description',
 //                     creatorId: '',
 //                     membersId: [],
 //                     comments: [],
@@ -164,10 +234,10 @@ function newActivity(cardTxt, boardTxt, taskId) {
 //                 },
 
 //                 {
-//                     taskListId: 'list1',
-//                     id: 'task2',
-//                     title: 'This is the task title',
-//                     description: 'This is the task description',
+//                     cardListId: 'list1',
+//                     id: 'card2',
+//                     title: 'This is the card title',
+//                     description: 'This is the card description',
 //                     creatorId: '',
 //                     membersId: [],
 //                     comments: [],
@@ -179,10 +249,10 @@ function newActivity(cardTxt, boardTxt, taskId) {
 //                 },
 
 //                 {
-//                     taskListId: 'list1',
-//                     id: 'task3',
-//                     title: 'This is the task title',
-//                     description: 'This is the task description',
+//                     cardListId: 'list1',
+//                     id: 'card3',
+//                     title: 'This is the card title',
+//                     description: 'This is the card description',
 //                     creatorId: '',
 //                     membersId: [],
 //                     comments: [],
@@ -194,10 +264,10 @@ function newActivity(cardTxt, boardTxt, taskId) {
 //                 },
 
 //                 {
-//                     taskListId: 'list1',
-//                     id: 'task4',
-//                     title: 'This is the task title',
-//                     description: 'This is the task description',
+//                     cardListId: 'list1',
+//                     id: 'card4',
+//                     title: 'This is the card title',
+//                     description: 'This is the card description',
 //                     creatorId: '',
 //                     membersId: [],
 //                     comments: [],
@@ -214,6 +284,6 @@ function newActivity(cardTxt, boardTxt, taskId) {
 
 // }
 
-// async function stall(stallTime = 3000) {
-//     await new Promise(resolve => setTimeout(resolve, stallTime));
-//   }
+async function stall(stallTime = 3000) {
+    await new Promise(resolve => setTimeout(resolve, stallTime));
+  }

@@ -1,4 +1,4 @@
-.task-preview {
+.card-preview {
     // display: flex;
     // flex-direction: column;
     // margin: 0 4px;
@@ -8,10 +8,10 @@
     margin-bottom: 8px;
     box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
     z-index: 30;
-    .task-preview-content {
+    .card-preview-content {
         padding: 6px 8px 2px;
         width: 100%;
-        .task-preview-title {
+        .card-preview-title {
             overflow: hidden;
             overflow-wrap: break-word;
             white-space: normal;
@@ -53,12 +53,12 @@
             }
         }
     }
-    .task-cover {
+    .card-cover {
         height: 32px;
         border-radius: 3px 3px 0 0;
         transition: ease-in-out 0.45s;
     }
-    .task-img-cover {
+    .card-img-cover {
         object-fit: cover;
         width: 100%;
     }
@@ -81,7 +81,7 @@
         font-size: rem(12px);
     }
 }
-.task-complete {
+.card-complete {
     background-color: $submit-bgc;
     color: #ffff;
     border-radius: 3px;

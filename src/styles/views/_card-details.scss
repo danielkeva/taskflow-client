@@ -8,7 +8,7 @@
     width: 100%;
     z-index: -100;
 }
-.task-details-wrapper {
+.card-details-wrapper {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -20,7 +20,7 @@
     z-index: 20;
     overflow-y: auto;
 }
-.task-details {
+.card-details {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,8 +31,9 @@
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    z-index: 1;
 }
-.task-modal {
+.card-modal {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -90,7 +91,7 @@
     }
 }
 
-.task-content {
+.card-content {
     display: flex;
     flex: 1;
 }
@@ -100,7 +101,7 @@
     margin-bottom: 20px;
 }
 
-.task-title {
+.card-title {
     font-size: rem(20px);
     font-size: 20px;
     font-weight: 600;
@@ -112,7 +113,7 @@
         height: 32px;
     }
 }
-.task-item-title {
+.card-item-title {
     text-transform: uppercase;
     margin: 0 8px 4px 0;
     font-weight: 500;
@@ -124,13 +125,13 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 8px 8px 8px 16px;
-    .task-labels-date {
+    .card-labels-date {
         display: flex;
         flex-wrap: wrap;
 
-        .task-labels {
+        .card-labels {
             position: relative;
-            .task-labels-list {
+            .card-labels-list {
                 margin-right: 5px;
                 display: flex;
                 .label {
@@ -138,7 +139,7 @@
                 }
             }
         }
-        .task-due-date {
+        .card-due-date {
             margin: 0 0 0 6px;
             .modal-btn {
                 display: flex;
@@ -156,7 +157,7 @@
                     margin: 0 4px;
                 }
             }
-            .task-badge {
+            .card-badge {
                 font-size: rem(12px);
                 margin-left: 4px;
                 padding: 2px 4px;
@@ -169,7 +170,7 @@
             right: unset;
         }
     }
-    .task-description {
+    .card-description {
         display: flex;
         flex-direction: column;
         .module-text {
@@ -209,13 +210,13 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .task-modal {
+    .card-modal {
         margin: 36px 8px;
     }
     .pop-up {
         position: absolute;
     }
-    .task-content {
+    .card-content {
         width: 100%;
         flex-direction: column;
         .left-side {

@@ -9,20 +9,24 @@
 @import "basics/base";
 
 // VIEWS
+@import "views/boards-page";
 @import "views/board-details";
-@import "views/task-details";
+@import "views/card-details";
 
 // COMPONENTS
 @import "cmps/board-menu";
 @import "cmps/text-editor";
-@import "cmps/task-list";
-@import "cmps/task-actions";
+@import "cmps/card-list";
+@import "cmps/card-actions";
 @import "cmps/list-menu";
-@import "cmps/task-preview";
+@import "cmps/card-preview";
 @import "cmps/label-picker";
 @import "cmps/cover-picker";
 @import "cmps/labels-list";
 @import "cmps/checklist";
 @import "cmps/main-navbar";
 @import "cmps/bg-picker";
+@import "cmps/board-privacy";
+@import "cmps/add-board";
 @import "cmps/activity-log";
+@import "cmps/user-avatar";

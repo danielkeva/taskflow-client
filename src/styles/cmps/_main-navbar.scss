@@ -1,7 +1,68 @@
-.main-navbar {
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.42);
-    color: $clr5;
+    top: 0;
     width: 100%;
-    min-height: 30px;
+    min-height: 40px;
+    padding: 4px;
+    background-color: rgba(0, 0, 0, 0.42);
+    color: #f6f9fe;
+    z-index: 1;
+    .logo {
+        font-size: rem(24px);
+    }
+    .main-nav-btn {
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-weight: 700;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 8px;
+    }
+}
+
+.welcome-nav {
+    background-color: rgb(130, 116, 208);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 1rem;
+    transition: all 500ms ease-out 0s;
+    width: 100%;
+    .wel-nav-link {
+        font-size: rem(18px);
+        background-color: #fff;
+        color: rgb(130, 116, 208);
+        border: none;
+        margin: 8px 4px 0 0;
+        padding: 6px 12px;
+        line-height: 20px;
+        border-radius: 3px;
+        font-weight: 500;
+        transition: 0.3s;
+        &:hover {
+            background-color: #ededed;
+        }
+        &:last-child {
+            margin-left: 8px;
+        }
+    }
+}
+
+.logo {
+    font-family: Lobster;
+    font-size: rem(35px);
+    color: #fff;
+}
+
+.my-icon {
+    width: 26px;
+    line-height: 1px;
 }

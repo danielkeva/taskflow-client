@@ -56,8 +56,6 @@ const BoardBgPicker = ({ onGoBack, board, onBoardUpdated }) => {
 
     return (
         <div className="board-menu-bg-picker">
-            {console.log('rednered')}
-
             <button className="pop-up-back-btn clear-btn icon-lg" onClick={handleGoBack} >
                 <RiArrowLeftSLine />
             </button>

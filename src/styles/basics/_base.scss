@@ -8,7 +8,7 @@ html {
     //  Fitting html's width with the list-container's width
     //   React-beautiful-dnd doesn't support two scrolling parent
     //   Can be removed once https://github.com/atlassian/react-beautiful-dnd/issues/131 is fixed
-    min-width: max-content;
+    min-width: min-content;
 }
 
 body {

@@ -3,11 +3,26 @@ import { boardService } from '../../services/board.service.js';
 import { socketService } from '../../services/socket.service.js';
 
 
+
 export function loadBoards() {
     return async dispatch => {
-        const boards = await boardService.query()
-        if (boards) {
-            dispatch({ type: 'SET_BOARDS', boards })
+        try {
+            const response = await boardService.query()
+            dispatch({ type: 'SET_BOARDS', boards: response })
+        } catch (err) {
+            console.log('should be dispatching error to its storeee', err)
+            dispatch({ type: 'SET_ERROR', error: err.response });
+        }
+    }
+}
+export function addBoard(newBoard) {
+    return async dispatch => {
+        try {
+
+            const response = await boardService.save(newBoard)
+            dispatch({ type: 'ADD_BOARD', board: response })
+        } catch (err) {
+            dispatch({ type: 'SET_ERROR', error: err.response });
         }
     }
 }
@@ -15,17 +30,21 @@ export function loadBoards() {
 export function getBoardById(id) {
     return async dispatch => {
         try {
-            const currBoard = await boardService.getById(id)
-            dispatch({ type: 'SET_BOARD', currBoard })
+            dispatch({ type: 'SET_LOADING', isLoading: true })
+            const response = await boardService.getById(id)
+            dispatch({ type: 'SET_BOARD', currBoard: response })
+            dispatch({ type: 'SET_LOADING', isLoading: false })
         } catch (err) {
-            console.warn('cannot save board', err)
-            throw err
+            console.log(err.response)
+            dispatch({ type: 'SET_LOADING', isLoading: false })
+            dispatch({ type: 'SET_ERROR', error: err.response });
         }
     }
 }
 
 export function saveBoard(updatedBoard) {
     return async (dispatch, getState) => {
+        // updatedBoard.isPrivate = true
         const prevBoard = getState().board.currBoard
         dispatch({ type: 'SET_BOARD', currBoard: updatedBoard })
         try {
@@ -45,16 +64,16 @@ export function setCurrBoard(updatedBoard) {
     }
 }
 
-export function loadTask(id) {
+export function loadCard(id) {
     return async (dispatch, getState) => {
-        await dispatch({ type: 'SET_TASK', id });
-        return getState().board.currTask
+        await dispatch({ type: 'SET_CARD', id });
+        return getState().board.currCard
     }
 }
 
-export function updateTask(task) {
+export function updateCard(card) {
     return dispatch => {
-        dispatch({ type: 'UPDATE_TASK', currTask: task });
+        dispatch({ type: 'UPDATE_CARD', currCard: card });
     }
 }
 
@@ -85,39 +104,39 @@ export function toggleLabels() {
 // }
 
 
-    // export function loadTask(taskId) {
-    //     state.board.taskLists.forEach(taskList => {
-    //         const task = taskList.tasks.find(task => task.id === taskId)
-    //         if (task) {
-    //             dispatch({ type: 'SET_TASK', currTask: task })
+    // export function loadCard(cardId) {
+    //     state.board.cardLists.forEach(cardList => {
+    //         const card = cardList.cards.find(card => card.id === cardId)
+    //         if (card) {
+    //             dispatch({ type: 'SET_CARD', currCard: card })
     //         }
     //     })
 
     // }
 
 
-    //   function updateTaskList(taskList) {
+    //   function updateCardList(cardList) {
     //     const boardCopy = JSON.parse(JSON.stringify(state.board));
-    //     const idx = boardCopy.taskLists.findIndex(currList => currList.id === taskList.id)
-    //     boardCopy.taskLists.splice(idx, 1, taskList)
+    //     const idx = boardCopy.cardLists.findIndex(currList => currList.id === cardList.id)
+    //     boardCopy.cardLists.splice(idx, 1, cardList)
     //     saveBoard(boardCopy)
     //   }
 
-    //   function removeTaskList(taskListId) {
+    //   function removeCardList(cardListId) {
 
     //     const boardCopy = JSON.parse(JSON.stringify(state.board));
-    //     const idx = boardCopy.taskLists.findIndex(currList => currList.id === taskListId)
-    //     boardCopy.taskLists.splice(idx, 1)
+    //     const idx = boardCopy.cardLists.findIndex(currList => currList.id === cardListId)
+    //     boardCopy.cardLists.splice(idx, 1)
     //     saveBoard(boardCopy)
     //   }
 
-    //   function updateTask(task) {
-    //     dispatch({ type: 'SET_TASK', currTask: task })
+    //   function updateCard(card) {
+    //     dispatch({ type: 'SET_CARD', currCard: card })
     //     const boardCopy = JSON.parse(JSON.stringify(state.board))
-    //     boardCopy.taskLists.forEach(taskList => {
-    //       let idx = taskList.tasks.findIndex(currTask => currTask.id === task.id)
+    //     boardCopy.cardLists.forEach(cardList => {
+    //       let idx = cardList.cards.findIndex(currCard => currCard.id === card.id)
     //       if (idx !== -1) {
-    //         taskList.tasks.splice(idx, 1, task)
+    //         cardList.cards.splice(idx, 1, card)
     //       }
     //     })
     //     saveBoard(boardCopy)

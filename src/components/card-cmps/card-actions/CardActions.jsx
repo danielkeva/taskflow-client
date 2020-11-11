@@ -1,25 +1,13 @@
-import React, { useRef } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useCallback, useRef, useState } from 'react'
+
 import LabelPicker from './LabelPicker'
 import DatePicker from './DatePicker'
 import ChecklistPicker from './checklist-cmps/ChecklistPicker'
-import useOnClickOutside from '../../../hooks/useOnClickOutSide'
 import CoverPicker from './CoverPicker'
-import { useEffect } from 'react'
-import { BsLockFill } from 'react-icons/bs'
-import { useCallback } from 'react'
 
-const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivity }) => {
+const CardActions = ({ card, labels, onUpdateCard, onLabelsUpdated, onAddActivity }) => {
     const sidebarRef = useRef(null)
     const [currAction, setCurrAction] = useState(null)
-
-    // useOnClickOutside(wrapperRef, () => {
-    //     console.log('yes');
-
-    //     if (currAction) {
-    //         closeModal()
-    //     }
-    // });
 
     const [bounds, setBounds] = useState(null)
     const ref = useRef(null)
@@ -42,7 +30,7 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivit
             setCurrAction(isActive)
         }
     }
-    // console.log('taskactions')
+    // console.log('cardactions')
     const updateWidthAndHeight = useCallback(() => {
         if (ref.current) {
             const activeEl = document.getElementById(ref.current)
@@ -79,10 +67,10 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivit
             {currAction === 'isLabelActive' &&
                 <LabelPicker
                     bounds={bounds}
-                    task={task}
+                    card={card}
                     labels={labels}
                     onCloseModal={closeModal}
-                    onTaskUpdated={onUpdateTask}
+                    onCardUpdated={onUpdateCard}
                     labelsUpdated={onLabelsUpdated}
                     exceptionRef={sidebarRef}
                 />}
@@ -90,9 +78,9 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivit
             <button id="sidebar-checklist" className="modal-btn" onClick={(ev) => toggle(ev, 'isChecklistActive')}>Checklist</button>
             {currAction === 'isChecklistActive' &&
                 <ChecklistPicker
-                    task={task}
+                    card={card}
                     bounds={bounds}
-                    onTaskUpdated={onUpdateTask}
+                    onCardUpdated={onUpdateCard}
                     onCloseModal={closeModal}
                     exceptionRef={sidebarRef}
                 />}
@@ -100,24 +88,24 @@ const TaskActions = ({ task, labels, onUpdateTask, onLabelsUpdated, onAddActivit
             {currAction === 'isDueDateActive' &&
                 <DatePicker
                     bounds={bounds}
-                    task={task}
-                    onTaskUpdated={onUpdateTask}
+                    card={card}
+                    onCardUpdated={onUpdateCard}
                     onAddActivity={onAddActivity}
                     onCloseModal={closeModal}
                     exceptionRef={sidebarRef}
                 />}
             {/* Show the cover button only when cover is not set (displayed in header otherwise) */}
-            {!task.cover.background && <button id="sidebar-cover" className="modal-btn" onClick={(ev) => toggle(ev, 'isCoverActive')}>Cover</button>}
+            {!card.cover.background && <button id="sidebar-cover" className="modal-btn" onClick={(ev) => toggle(ev, 'isCoverActive')}>Cover</button>}
             {currAction === 'isCoverActive' &&
                 <CoverPicker
                     bounds={bounds}
                     exceptionRef={sidebarRef}
-                    task={task}
+                    card={card}
                     onCloseModal={closeModal}
-                    onTaskUpdated={onUpdateTask}
-                     />}
+                    onCardUpdated={onUpdateCard}
+                />}
         </div>
     )
 }
 
-export default TaskActions
+export default CardActions

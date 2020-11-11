@@ -1,13 +1,14 @@
-import React, { useRef } from 'react'
-import { RiCloseLine } from 'react-icons/ri'
-import { useState } from 'react'
-import styled from 'styled-components'
-import ScaleLoader from "react-spinners/ScaleLoader";
-import Color, { Palette } from "color-thief-react";
+import React, { useRef, useState } from 'react'
+import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 import cloudinaryService from '../../../services/cloudinary.service';
 import { utilService } from '../../../services/util.service';
-import useOnClickOutside from '../../../hooks/useOnClickOutSide';
+
+import styled from 'styled-components'
+import ScaleLoader from "react-spinners/ScaleLoader";
+import { RiCloseLine } from 'react-icons/ri'
+
+
 
 
 const HalfBgcWrapper = styled.div`
@@ -29,12 +30,12 @@ ${props => props.cover.type === 'color' ?
     }
 `;
 
-const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }) => {
-    const [selectedCover, setSelectedCover] = useState(task.cover)
+const CoverPicker = ({ card, onCloseModal, onCardUpdated, bounds, exceptionRef }) => {
+    const [selectedCover, setSelectedCover] = useState(card.cover)
     const [loading, setLoading] = useState(false);
 
     const wrapperRef = useRef(null)
-    
+
     useOnClickOutside(wrapperRef, () => {
         onCloseModal()
     }, exceptionRef);
@@ -51,31 +52,31 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
         '#ff78cb',
     ]
     const handleSelected = (cover) => {
-        const taskCopy = { ...task }
+        const cardCopy = { ...card }
         if (cover.id) {
             setSelectedCover({ ...selectedCover, background: cover.url, type: 'img' })
-            taskCopy.cover.type = 'img'
-            taskCopy.cover.background = cover.url
+            cardCopy.cover.type = 'img'
+            cardCopy.cover.background = cover.url
         } else {
             setSelectedCover({ ...selectedCover, background: cover, type: 'color' })
-            taskCopy.cover.type = 'color'
-            taskCopy.cover.background = cover
+            cardCopy.cover.type = 'color'
+            cardCopy.cover.background = cover
         }
-        onTaskUpdated(taskCopy)
+        onCardUpdated(cardCopy)
     }
     const handleLayout = (isFull) => {
-        if (!task.cover.background) return;
+        if (!card.cover.background) return;
         setSelectedCover({ ...selectedCover, isFull: isFull })
-        const taskCopy = { ...task }
-        taskCopy.cover.isFull = isFull
-        onTaskUpdated(taskCopy)
+        const cardCopy = { ...card }
+        cardCopy.cover.isFull = isFull
+        onCardUpdated(cardCopy)
     }
     const handleThemeChange = (theme) => {
         if (theme === selectedCover.theme) return;
         setSelectedCover({ ...selectedCover, theme: theme })
-        const taskCopy = { ...task }
-        taskCopy.cover.theme = theme
-        onTaskUpdated(taskCopy)
+        const cardCopy = { ...card }
+        cardCopy.cover.theme = theme
+        onCardUpdated(cardCopy)
     }
     const handleUpload = async (ev) => {
         console.log('yes mame');
@@ -83,20 +84,20 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
         const res = await cloudinaryService.uploadImg(ev);
         const { url } = res;
         setSelectedCover({ ...selectedCover, background: url, type: 'img' })
-        const taskCopy = { ...task }
+        const cardCopy = { ...card }
         const img = { id: utilService.makeId(), url: url, isCover: true }
-        taskCopy.images.push(img)
-        taskCopy.cover.background = url
-        taskCopy.cover.type = 'img'
-        onTaskUpdated(taskCopy)
+        cardCopy.images.push(img)
+        cardCopy.cover.background = url
+        cardCopy.cover.type = 'img'
+        onCardUpdated(cardCopy)
         setLoading(false);
     }
     const handleRemove = () => {
         setSelectedCover({ ...selectedCover, background: null, type: null, isFull: null, theme: null })
-        const taskCopy = { ...task }
-        taskCopy.cover = { ...taskCopy.cover, background: null, type: null, isFull: null, theme: null }
-        // console.log('task', taskCopy);
-        onTaskUpdated(taskCopy)
+        const cardCopy = { ...card }
+        cardCopy.cover = { ...cardCopy.cover, background: null, type: null, isFull: null, theme: null }
+        // console.log('card', cardCopy);
+        onCardUpdated(cardCopy)
         onCloseModal()
     }
     return (
@@ -112,17 +113,17 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
             <div className="cover-size-picker">
                 <FullBgcWrapper
                     cover={selectedCover}
-                    className={'cover-size ' + (task.cover.background ? (selectedCover.isFull ? 'selected' : '') : 'disabled')}
+                    className={'cover-size ' + (card.cover.background ? (selectedCover.isFull ? 'selected' : '') : 'disabled')}
                     onClick={() => handleLayout(true)}
                 >
-                    <div className={`line-wrapper ${task.cover.type === 'img' ? (task.cover.theme === 'dark' ? 'dark' : '') : ''}`}>
+                    <div className={`line-wrapper ${card.cover.type === 'img' ? (card.cover.theme === 'dark' ? 'dark' : '') : ''}`}>
                         <div className="line line1"></div>
                         <div className="line line2"></div>
                         <div className="line line3"></div>
                     </div>
                 </FullBgcWrapper>
                 <div
-                    className={'cover-size half ' + (task.cover.background ? (selectedCover.isFull ? '' : 'selected') : 'disabled')}
+                    className={'cover-size half ' + (card.cover.background ? (selectedCover.isFull ? '' : 'selected') : 'disabled')}
                     onClick={() => handleLayout(false)}>
                     <HalfBgcWrapper className="half" cover={selectedCover}></HalfBgcWrapper>
                     <div className="line-wrapper">
@@ -132,7 +133,7 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
                     </div>
                 </div>
             </div>
-            {task.cover.background && <button className="modal-btn" onClick={handleRemove}>Remove Cover</button>}
+            {card.cover.background && <button className="modal-btn" onClick={handleRemove}>Remove Cover</button>}
             {(selectedCover.type === 'img' && selectedCover.isFull) &&
                 <div className="cover-txt-color">
                     <span className="pop-up-title">Text color</span>
@@ -141,13 +142,13 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
                             onClick={() => handleThemeChange('light')}
                             className="cover-txt light"
                             style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),url(${selectedCover.background})` }}>
-                            <h3>{task.title}</h3>
+                            <h3>{card.title}</h3>
                         </div>
                         <div
                             onClick={() => handleThemeChange('dark')}
                             className="cover-txt dark"
                             style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${selectedCover.background})` }}>
-                            <h3>{task.title}</h3>
+                            <h3>{card.title}</h3>
                         </div>
                     </div>
                 </div>}
@@ -163,10 +164,10 @@ const CoverPicker = ({ task, onCloseModal, onTaskUpdated, bounds, exceptionRef }
                     ></span>
                 ))}
             </div>
-            {task.images.length > 0 && <span className="pop-up-title">Images</span>}
-            {task.images.length > 0 &&
+            {card.images.length > 0 && <span className="pop-up-title">Images</span>}
+            {card.images.length > 0 &&
                 <div className="cover-img-wrapper">
-                    {task.images.map(img => (
+                    {card.images.map(img => (
                         <span
                             // check id in case the same img has been uploaded
                             className={'cover-img-preview ' + ((img.url + img.id) === (selectedCover.background + img.id) ? 'selected' : '')}

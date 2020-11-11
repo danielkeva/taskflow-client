@@ -1,5 +1,6 @@
 const initialState = {
-   isInitialAddition:false
+    isInitialAddition: false,
+    isLoading: true
 };
 
 export const generalReducer = (state = initialState, action) => {
@@ -8,6 +9,11 @@ export const generalReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isInitialAddition: action.isInitial
+            };
+        case 'SET_LOADING':
+            return {
+                ...state,
+                isLoading: action.isLoading
             };
         default:
             return state

@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
+import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
-import moment from 'moment'
 import { RiCloseLine } from 'react-icons/ri'
+import moment from 'moment'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 
 import { boardService } from '../../../services/board.service';
-import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
-const DatePicker = ({ task, onTaskUpdated, onCloseModal, bounds, exceptionRef }) => {
+const DatePicker = ({ card, onCardUpdated, onCloseModal, bounds, exceptionRef }) => {
     const [value, setDate] = useState(new Date());
     let { url } = useRouteMatch();
     const wrapperRef = useRef(null)
 
     useEffect(() => {
-        if (task.dueDate) {
-            const date = new Date(task.dueDate)
+        if (card.dueDate) {
+            const date = new Date(card.dueDate)
             setDate(date)
         }
     }, [])
@@ -28,23 +28,23 @@ const DatePicker = ({ task, onTaskUpdated, onCloseModal, bounds, exceptionRef })
 
     const createActivity = (timestamp, isRemoveActivity = null) => {
         const dueDate = moment(new Date(timestamp)).format("MMM Do");
-        if (task.dueDate) {
+        if (card.dueDate) {
             return boardService.newActivity(
                 `Changed the due date of this card to  ${dueDate}`,
-                `Changed [${task.title}](${url}) to be due at ${dueDate}`,
-                task.id
+                `Changed [${card.title}](${url}) to be due at ${dueDate}`,
+                card.id
             )
         } else if (isRemoveActivity) {
             return boardService.newActivity(
                 `Removed the due date from this card`,
-                `Removed [${task.title}](${url}) due date`,
-                task.id
+                `Removed [${card.title}](${url}) due date`,
+                card.id
             )
         } else {
             return boardService.newActivity(
                 `Set this card to be due at ${dueDate}`,
-                `Set [${task.title}](${url}) to be due at ${dueDate} `,
-                task.id
+                `Set [${card.title}](${url}) to be due at ${dueDate} `,
+                card.id
             )
         }
     }
@@ -53,11 +53,11 @@ const DatePicker = ({ task, onTaskUpdated, onCloseModal, bounds, exceptionRef })
 
     const submitDate = async () => {
         const timestamp = value.getTime();
-        if (timestamp === task.dueDate) return;
-        const taskCopy = JSON.parse(JSON.stringify(task));
-        taskCopy.dueDate = timestamp
+        if (timestamp === card.dueDate) return;
+        const cardCopy = JSON.parse(JSON.stringify(card));
+        cardCopy.dueDate = timestamp
         const newActivity = createActivity(timestamp)
-        await onTaskUpdated(taskCopy, newActivity)
+        await onCardUpdated(cardCopy, newActivity)
         onCloseModal()
     }
 

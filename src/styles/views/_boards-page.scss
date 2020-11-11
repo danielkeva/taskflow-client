@@ -1,0 +1,29 @@
+.boards-page {
+    padding: 85px 5px 8px;
+    .boards {
+        margin: 0 auto;
+        max-width: 825px;
+        min-width: 288px;
+    }
+    
+    .cover {
+        z-index: unset;
+    }
+}
+
+.boards-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    .board-item {
+        width: 25%;
+        height: 120px;
+        margin: 0 2% 2% 0;
+        a {
+            display: block;
+            height: 100%;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: 50%;
+        }
+    }
+}

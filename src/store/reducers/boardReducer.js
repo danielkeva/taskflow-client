@@ -1,8 +1,8 @@
 const initialState = {
     boards: null,
     currBoard: null,
-    currTask: null,
-    isExpanded: false
+    currCard: null,
+    isExpanded: false,
 };
 
 export const boardReducer = (state = initialState, action) => {
@@ -18,26 +18,35 @@ export const boardReducer = (state = initialState, action) => {
                 // currBoard: action.currBoard
                 currBoard: { ...action.currBoard }
             };
-        case 'SET_TASK':
-            let taskToUpdate;
-            state.currBoard.taskLists.forEach(taskList => {
-                taskList.tasks.find(task => {
-                    if (task.id === action.id) taskToUpdate = task
+        case 'ADD_BOARD':
+            return {
+                ...state,
+                boards: [action.board, ...state.boards]
+            }
+        case 'SET_CARD':
+            let cardToUpdate;
+            state.currBoard.cardLists.forEach(cardList => {
+                cardList.cards.find(card => {
+                    if (card.id === action.id) cardToUpdate = card
                 })
             })
             return {
                 ...state,
-                currTask: taskToUpdate ? { ...taskToUpdate } : null
+                currCard: cardToUpdate ? { ...cardToUpdate } : null
             };
-        case 'UPDATE_TASK':
+        case 'UPDATE_CARD':
             return {
                 ...state,
-                currTask: { ...action.currTask }
+                currCard: { ...action.currCard }
             }
         case 'TOGGLE_LABELS':
             return {
                 ...state,
                 isExpanded: !state.isExpanded
+            }
+        case 'SET_LOGOUT':
+            return {
+                state: undefined
             }
         default:
             return state

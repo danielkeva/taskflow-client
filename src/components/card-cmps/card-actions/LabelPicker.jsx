@@ -1,14 +1,13 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState,useEffect } from 'react'
+import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 import { RiCloseLine } from "react-icons/ri";
 import { GoPencil } from "react-icons/go";
 
 import TextEditor from '../../TextEditor';
-import { useEffect } from 'react';
-import useOnClickOutside from '../../../hooks/useOnClickOutSide';
 
 
-const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated, bounds, exceptionRef }) => {
+const LabelPicker = ({ card, labels, onCloseModal, onCardUpdated, labelsUpdated, bounds, exceptionRef }) => {
     const [selectedLabel, setSelectedLabel] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
     const wrapperRef = useRef(null)
@@ -40,11 +39,11 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated,
 
     useEffect(() => {
         if (!isEditing && selectedLabel) {
-            const taskCopy = JSON.parse(JSON.stringify(task));
-            const taskLabelIdx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
-            if (taskLabelIdx !== -1) {
-                taskCopy.labels.splice(taskLabelIdx, 1, selectedLabel)
-                onTaskUpdated(taskCopy)
+            const cardCopy = JSON.parse(JSON.stringify(card));
+            const cardLabelIdx = cardCopy.labels.findIndex(label => label.id === selectedLabel.id)
+            if (cardLabelIdx !== -1) {
+                cardCopy.labels.splice(cardLabelIdx, 1, selectedLabel)
+                onCardUpdated(cardCopy)
             }
         }
 
@@ -53,15 +52,15 @@ const LabelPicker = ({ task, labels, onCloseModal, onTaskUpdated, labelsUpdated,
 
     const toggleLabels = (selectedLabel) => {
         let labelExist;
-        const taskCopy = JSON.parse(JSON.stringify(task));
-        labelExist = taskCopy.labels.find(label => label.id === selectedLabel.id)
+        const cardCopy = JSON.parse(JSON.stringify(card));
+        labelExist = cardCopy.labels.find(label => label.id === selectedLabel.id)
         if (!labelExist) {
-            taskCopy.labels.push(selectedLabel)
+            cardCopy.labels.push(selectedLabel)
         } else {
-            const idx = taskCopy.labels.findIndex(label => label.id === selectedLabel.id)
-            taskCopy.labels.splice(idx, 1)
+            const idx = cardCopy.labels.findIndex(label => label.id === selectedLabel.id)
+            cardCopy.labels.splice(idx, 1)
         }
-        onTaskUpdated(taskCopy)
+        onCardUpdated(cardCopy)
     }
 
     const labelToEdit = (label) => {

@@ -1,24 +1,26 @@
-import React, { useState, useEffect, useRef, useMemo, memo } from 'react'
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import { loadTask, saveBoard, updateTask } from '../store/actions/boardActions';
-import Color from 'color-thief-react';
-import { boardService } from '../services/board.service';
-import Moment from 'react-moment';
-
-import TextEditor from '../components/TextEditor';
-import TaskActions from '../components/task-cmps/task-actions/TaskActions';
-import TaskChecklist from '../components/task-cmps/task-actions/checklist-cmps/TaskChecklist';
-import LabelList from '../components/task-cmps/task-actions/LabelList';
-import ActivityLog from '../components/ActivityLog';
 import useOnClickOutside from '../hooks/useOnClickOutSide';
+
+import { loadCard, saveBoard, updateCard } from '../store/actions/boardActions';
+import { addActivity } from '../store/actions/activityActions';
+
+import { boardService } from '../services/board.service';
+import Color from 'color-thief-react';
+import Moment from 'react-moment';
 import { RiArrowDownSLine, RiCloseLine } from 'react-icons/ri';
 
-import CoverPicker from '../components/task-cmps/task-actions/CoverPicker';
-import LabelPicker from '../components/task-cmps/task-actions/LabelPicker';
-import DatePicker from '../components/task-cmps/task-actions/DatePicker';
-import { useCallback } from 'react';
-import { addActivity } from '../store/actions/activityActions';
+import TextEditor from '../components/TextEditor';
+import CardActions from '../components/card-cmps/card-actions/CardActions';
+import CardChecklist from '../components/card-cmps/card-actions/checklist-cmps/CardChecklist';
+import LabelList from '../components/card-cmps/card-actions/LabelList';
+import ActivityLog from '../components/ActivityLog';
+import CoverPicker from '../components/card-cmps/card-actions/CoverPicker';
+import LabelPicker from '../components/card-cmps/card-actions/LabelPicker';
+import DatePicker from '../components/card-cmps/card-actions/DatePicker';
+
+
 
 
 const calendarStrings = {
@@ -29,25 +31,25 @@ const calendarStrings = {
 };
 
 
-const TaskDetails = () => {
+const CardDetails = () => {
     const dispatch = useDispatch()
-    const currTask = useSelector(state => state.board.currTask)
+    const currCard = useSelector(state => state.board.currCard)
     const board = useSelector(state => state.board.currBoard)
 
     const [activeAction, setActiveAction] = useState(null)
-    const [taskCopy, setTask] = useState(null)
+    const [cardCopy, setCard] = useState(null)
 
     const wrapperRef = useRef(null)
     const modalHeaderRef = useRef(null)
     const exceptionRef = useRef(null)
 
-    const { taskId } = useParams();
+    const { cardId } = useParams();
     const history = useHistory();
     const { url } = useRouteMatch();
-    
+
     useEffect(() => {
         const load = async () => {
-            const res = await dispatch(loadTask(taskId))
+            const res = await dispatch(loadCard(cardId))
             if (!res) {
                 history.push(`/board/${board._id}`)
             }
@@ -67,13 +69,13 @@ const TaskDetails = () => {
 
 
     useEffect(() => {
-        const setTaskCopy = () => {
-            if (currTask) {
-                setTask({ ...currTask })
+        const setCardCopy = () => {
+            if (currCard) {
+                setCard({ ...currCard })
             }
         }
-        setTaskCopy()
-    }, [currTask])
+        setCardCopy()
+    }, [currCard])
 
     const closeModal = () => {
         history.push(`/board/${board._id}`)
@@ -88,20 +90,20 @@ const TaskDetails = () => {
     });
 
     const handleChange = (ev) => {
-        setTask({ ...taskCopy, [ev.target.name]: ev.target.value })
+        setCard({ ...cardCopy, [ev.target.name]: ev.target.value })
     }
 
-    const onUpdateTask = (task, activity = null) => {
-        task ? updateBoard({ ...task }, activity) : updateBoard({ ...taskCopy })
+    const onUpdateCard = (card, activity = null) => {
+        card ? updateBoard({ ...card }, activity) : updateBoard({ ...cardCopy })
     }
 
-    const updateBoard = useCallback((task, activity) => {
-        dispatch(updateTask(task))
+    const updateBoard = useCallback((card, activity) => {
+        dispatch(updateCard(card))
         const boardCopy = JSON.parse(JSON.stringify(board))
-        boardCopy.taskLists.forEach(taskList => {
-            let idx = taskList.tasks.findIndex(currTask => currTask.id === task.id)
+        boardCopy.cardLists.forEach(cardList => {
+            let idx = cardList.cards.findIndex(currCard => currCard.id === card.id)
             if (idx !== -1) {
-                taskList.tasks.splice(idx, 1, task)
+                cardList.cards.splice(idx, 1, card)
             }
         })
         dispatch(saveBoard(boardCopy))
@@ -114,9 +116,9 @@ const TaskDetails = () => {
     const updateBoardLabels = (updatedLabels, editedLabel) => {
         const boardCopy = JSON.parse(JSON.stringify(board));
         boardCopy.labels = updatedLabels
-        boardCopy.taskLists.forEach(taskList => {
-            taskList.tasks.forEach(task => {
-                let currLabel = task.labels.find(label => label.id === editedLabel.id)
+        boardCopy.cardLists.forEach(cardList => {
+            cardList.cards.forEach(card => {
+                let currLabel = card.labels.find(label => label.id === editedLabel.id)
                 if (currLabel) {
                     currLabel.title = editedLabel.title
                 }
@@ -129,14 +131,14 @@ const TaskDetails = () => {
         ev.stopPropagation()
         ev.preventDefault()
         const { checked } = ev.target
-        const updatedTask = { ...taskCopy }
-        updatedTask.isDone = checked
+        const updatedCard = { ...cardCopy }
+        updatedCard.isDone = checked
         const newActivity = boardService.newActivity(
-            `Marked the due date ${updatedTask.isDone ? 'complete' : 'incomplete'}`,
-            `Marked the due date ${updatedTask.isDone ? 'complete' : 'incomplete'} on [${updatedTask.title}](${url})`,
-            updatedTask.id
+            `Marked the due date ${updatedCard.isDone ? 'complete' : 'incomplete'}`,
+            `Marked the due date ${updatedCard.isDone ? 'complete' : 'incomplete'} on [${updatedCard.title}](${url})`,
+            updatedCard.id
         )
-        updateBoard(updatedTask, newActivity)
+        updateBoard(updatedCard, newActivity)
     }
 
     const handleActiveAction = (ev, action) => {
@@ -152,44 +154,44 @@ const TaskDetails = () => {
 
 
     const isDue = useMemo(() => {
-        if (currTask) {
+        if (currCard) {
             let date = new Date()
             date.setHours(0, 0, 0, 0)
             date.setDate(date.getDate() + 1)
-            if (currTask.isDone) {
-                return { class: 'task-complete', txt: 'Complete' }
+            if (currCard.isDone) {
+                return { class: 'card-complete', txt: 'Complete' }
             }
-            if (date.getTime() === currTask.dueDate) {
+            if (date.getTime() === currCard.dueDate) {
                 return { class: 'due-soon', txt: 'Due soon' }
-            } if (currTask.dueDate <= Date.now()) {
+            } if (currCard.dueDate <= Date.now()) {
                 return { class: 'over-due', txt: 'Over due' }
             } else return ''
 
         }
-    }, [currTask]);
+    }, [currCard]);
 
 
     return (
-        <div className='task-details'>
-            <div className={'cover'} ></div>
-            {currTask &&
-                <div className='task-modal' ref={wrapperRef}>
-                    {currTask.cover.background &&
-                        <Color src={currTask.cover.background} crossOrigin='anonymous' format='hex'>
+        <div className='card-details'>
+            <div className='cover'></div>
+            {currCard &&
+                <div className='card-modal' ref={wrapperRef}>
+                    {currCard.cover.background &&
+                        <Color src={currCard.cover.background} crossOrigin='anonymous' format='hex'>
                             {({ data }) => {
                                 return (
                                     <div
                                         className='modal-header '
-                                        style={{ backgroundImage: `url(${currTask.cover.background})`, backgroundColor: data ? data : currTask.cover.background }}
+                                        style={{ backgroundImage: `url(${currCard.cover.background})`, backgroundColor: data ? data : currCard.cover.background }}
                                     >
-                                        {currTask.cover.background &&
+                                        {currCard.cover.background &&
                                             <button className='modal-btn' onClick={(ev) => handleActiveAction(ev, 'coverPicker')}>
                                                 Cover</button>}
 
                                         {activeAction === 'coverPicker' &&
-                                            <CoverPicker // outside TaskActions
-                                                task={currTask}
-                                                onTaskUpdated={onUpdateTask}
+                                            <CoverPicker // outside CardActions
+                                                card={currCard}
+                                                onCardUpdated={onUpdateCard}
                                                 onCloseModal={() => handleActiveAction('coverPicker')}
                                                 wrapperRef={modalHeaderRef}
                                                 exceptionRef={exceptionRef}
@@ -203,51 +205,51 @@ const TaskDetails = () => {
                         <RiCloseLine />
                     </a>
                     <div className='modal-module'>
-                        <div className='task-title'>
-                            <TextEditor type='h3' name='title' text={currTask.title} onChange={handleChange} onInputBlur={onUpdateTask} />
+                        <div className='card-title'>
+                            <TextEditor type='h3' name='title' text={currCard.title} onChange={handleChange} onInputBlur={onUpdateCard} />
                         </div>
                     </div>
-                    <div className='task-content'>
+                    <div className='card-content'>
                         <div className='left-side'>
                             <div className='modal-module'>
-                                <div className='task-labels-date'>
-                                    {currTask.labels.length > 0 &&
-                                        <div className="task-labels">
-                                            <h3 className='task-item-title'>Labels</h3>
-                                            <div className='task-labels-list' >
+                                <div className='card-labels-date'>
+                                    {currCard.labels.length > 0 &&
+                                        <div className="card-labels">
+                                            <h3 className='card-item-title'>Labels</h3>
+                                            <div className='card-labels-list' >
                                                 <LabelList
                                                     expandMode={true}
                                                     onLabelClicked={(ev) => handleActiveAction(ev, 'labelPicker')}
-                                                    labels={currTask.labels} />
+                                                    labels={currCard.labels} />
                                             </div>
                                             {activeAction === 'labelPicker' &&
-                                                <LabelPicker // outside TaskActions
-                                                    task={currTask}
-                                                    onTaskUpdated={onUpdateTask}
+                                                <LabelPicker // outside CardActions
+                                                    card={currCard}
+                                                    onCardUpdated={onUpdateCard}
                                                     labelsUpdated={updateBoardLabels}
                                                     onCloseModal={() => handleActiveAction('labelPicker')}
                                                     labels={board.labels}
                                                     exceptionRef={exceptionRef}
                                                 />}
                                         </div>}
-                                    {currTask.dueDate &&
-                                        <div className='task-due-date'>
-                                            <h3 className='task-item-title'>Due date</h3>
+                                    {currCard.dueDate &&
+                                        <div className='card-due-date'>
+                                            <h3 className='card-item-title'>Due date</h3>
                                             <div className='modal-btn' onClick={(ev) => handleActiveAction(ev, 'datePicker')}>
                                                 <label>
-                                                    <input className='css-checkbox' type='checkbox' name='isDone' checked={currTask.isDone} onChange={handleIsDone} />
+                                                    <input className='css-checkbox' type='checkbox' name='isDone' checked={currCard.isDone} onChange={handleIsDone} />
                                                     <i></i>
                                                 </label>
-                                                <Moment calendar={calendarStrings} date={currTask.dueDate} />
-                                                <span className={'task-badge ' + (isDue ? isDue.class : '')}>{isDue.txt}</span>
+                                                <Moment calendar={calendarStrings} date={currCard.dueDate} />
+                                                <span className={'card-badge ' + (isDue ? isDue.class : '')}>{isDue.txt}</span>
                                                 <RiArrowDownSLine className="icon-lg" />
 
                                             </div>
 
                                             {activeAction === 'datePicker' &&
                                                 <DatePicker
-                                                    task={currTask}
-                                                    onTaskUpdated={onUpdateTask}
+                                                    card={currCard}
+                                                    onCardUpdated={onUpdateCard}
                                                     exceptionRef={exceptionRef}
                                                     onCloseModal={() => handleActiveAction('datePicker')}
                                                 />}
@@ -255,34 +257,35 @@ const TaskDetails = () => {
                                 </div>
                             </div>
                             <div className='modal-module'>
-                                <div className='task-description'>
+                                <div className='card-description'>
                                     <h3 className='section-title'>Description</h3>
-                                    <TextEditor type='p' name='description' text={currTask.description} onChange={handleChange} onInputBlur={onUpdateTask} isWide={true} placeholder='Add a more detailed description…' />
+                                    <TextEditor type='p' name='description' text={currCard.description} onChange={handleChange} onInputBlur={onUpdateCard} isWide={true} placeholder='Add a more detailed description…' />
                                 </div>
                             </div>
-                            {currTask.checklists.length > 0 && <div className='modal-module'>
-                                {currTask.checklists.map(checklist => (
-                                    <TaskChecklist
+                            {currCard.checklists.length > 0 && <div className='modal-module'>
+                                {currCard.checklists.map(checklist => (
+                                    <CardChecklist
                                         checklist={checklist}
                                         key={checklist.id}
-                                        task={currTask}
-                                        onUpdateTask={onUpdateTask}
+                                        card={currCard}
+                                        onUpdateCard={onUpdateCard}
                                     />
 
                                 ))}
                             </div>}
                             <div className='modal-module'>
                                 <h3 className='section-title'>Activity</h3>
-                                <ActivityLog taskId={currTask.id} />
+                                <ActivityLog cardId={currCard.id} />
                             </div>
                         </div>
                         <div className='right-side'>
-                            {board && <TaskActions
-                                task={currTask}
-                                labels={board.labels}
-                                onUpdateTask={onUpdateTask}
-                                onLabelsUpdated={updateBoardLabels}
-                            />}
+                            {board &&
+                                <CardActions
+                                    card={currCard}
+                                    labels={board.labels}
+                                    onUpdateCard={onUpdateCard}
+                                    onLabelsUpdated={updateBoardLabels}
+                                />}
                         </div>
                     </div>
                 </div>
@@ -292,4 +295,4 @@ const TaskDetails = () => {
     )
 }
 
-export default TaskDetails
+export default CardDetails

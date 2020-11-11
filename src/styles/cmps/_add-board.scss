@@ -1,0 +1,80 @@
+.add-board {
+    // display: flex;
+    display: flex;
+    position: fixed;
+    top: 26px;
+    left: 50%;
+    width: 400px;
+    margin-left: -150px;
+    color: #fff;
+    .pop-up-close-btn {
+        top: 12px;
+        right: 12px;
+    }
+    .board-controls {
+        background-color: #0079bf;
+        background-size: cover;
+        background-position: 50%;
+        width: 294px;
+        height: 93px;
+        padding: 10px 10px 10px 16px;
+        position: relative;
+    }
+    .add-board-btn {
+        position: absolute;
+        top: 100%;
+        &:disabled {
+            background-color: $clr5;
+            color: $main-font-clr;
+            cursor: not-allowed;
+        }
+    }
+}
+.add-board-input {
+    border: none !important;
+    background: transparent !important;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #fff !important;
+    &::placeholder {
+        color: #fff;
+        opacity: 0.8;
+    }
+    font-size: 16px;
+    font-weight: 700;
+    left: -8px;
+    line-height: 24px;
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    position: relative;
+    width: calc(100% - 18px - 16px);
+    &:hover {
+        background: hsla(0, 0%, 100%, 0.15) !important;
+        box-shadow: none;
+    }
+    &:focus {
+        background: hsla(0, 0%, 100%, 0.3) !important;
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.bg-section-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100px;
+    height: 93px;
+    .bg-item {
+        background-size: cover;
+        border-radius: 3px;
+        width: 28px;
+        height: 28px;
+        margin-bottom: 3px;
+        margin-left: 4px;
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    }
+}

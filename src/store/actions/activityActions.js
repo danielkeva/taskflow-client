@@ -1,7 +1,7 @@
 import { boardService } from "../../services/board.service"
 
 
-// Dispatching this action to determine wether or not to start editing in TaskChecklist cmp on initial render
+// Dispatching this action to determine wether or not to start editing in CardChecklist cmp on initial render
 
 export function loadActivities(boardId) {
     return async dispatch => {

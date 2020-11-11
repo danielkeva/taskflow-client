@@ -1,11 +1,13 @@
-import React, { useState, useEffect, memo } from 'react'
-import TextEditor from '../../../TextEditor';
+import React, { useState, useEffect,useRef, memo } from 'react'
+import { useRouteMatch } from 'react-router-dom';
 import useOnClickOutside from '../../../../hooks/useOnClickOutSide';
-import { useRef } from 'react';
+
+import { boardService } from '../../../../services/board.service';
+
 import { BsTrash } from "react-icons/bs";
 import { RiCloseLine } from 'react-icons/ri';
-import { useRouteMatch } from 'react-router-dom';
-import { boardService } from '../../../../services/board.service';
+
+import TextEditor from '../../../TextEditor';
 
 const isEqual = require("react-fast-compare");
 
@@ -14,7 +16,7 @@ function compareProps(prev, next) {
     return isEqual(prev.item, next.item)
 }
 
-const ChecklistItem = ({ task, item, onSubmit, onRemoveItem }) => {
+const ChecklistItem = ({ card, item, onSubmit, onRemoveItem }) => {
     const [itemCopy, setItem] = useState({ ...item });
     const [isEditing, setIsEditing] = useState(false);
     const [displayMsg, setDisplayMsg] = useState(false);
@@ -42,8 +44,8 @@ const ChecklistItem = ({ task, item, onSubmit, onRemoveItem }) => {
         if (!initialRender.current) {
             const newActivity = boardService.newActivity(
                 `${itemCopy.isDone ? `Completed  ${item.title} on this card` : `Marked ${item.title} incomplete on this card`}`,
-                `${itemCopy.isDone ? `Completed  ${item.title} on [${task.title}](${url})` : `Marked ${item.title} incomplete on [${task.title}](${url})`}`,
-                task.id
+                `${itemCopy.isDone ? `Completed  ${item.title} on [${card.title}](${url})` : `Marked ${item.title} incomplete on [${card.title}](${url})`}`,
+                card.id
             )
             updateItem(newActivity)
         } else {

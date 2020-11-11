@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useRef } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
+import { useHistory, } from 'react-router-dom';
+import useOnClickOutside from '../../hooks/useOnClickOutSide'
+
 import {RiCloseLine } from 'react-icons/ri'
 import { FaListUl } from "react-icons/fa";
-import useOnClickOutside from '../../hooks/useOnClickOutSide'
+
 import ActivityLog from '../ActivityLog'
 import BoardBgPicker from './BoardBgPicker'
-import { useHistory, } from 'react-router-dom';
 
 const BoardMenu = ({ isMenuOpen, closeMenu, menuBtnRef, board, onBoardUpdated }) => {
     const history = useHistory();

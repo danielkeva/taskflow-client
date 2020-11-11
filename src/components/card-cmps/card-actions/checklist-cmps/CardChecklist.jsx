@@ -1,19 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect,useMemo } from 'react'
+import { useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import TextEditor from '../../../TextEditor'
-import { boardService } from '../../../../services/board.service'
 import useOnClickOutside from '../../../../hooks/useOnClickOutSide';
+import { toggleInitialAddition } from '../../../../store/actions/generalAction';
+
+import { boardService } from '../../../../services/board.service'
+
+import TextEditor from '../../../TextEditor'
 import ChecklistItem from './ChecklistItem';
 
+import { RiCloseLine } from 'react-icons/ri';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
-import { toggleInitialAddition } from '../../../../store/actions/generalAction';
-import { RiCloseLine } from 'react-icons/ri';
-import { useRouteMatch } from 'react-router-dom';
-import { useMemo } from 'react';
 
 
-const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
+const CardChecklist = ({ card, checklist, onUpdateCard }) => {
     const [newItem, setNewItem] = useState(null);
     const [checklistTitle, setChecklistTitle] = useState(checklist.title);
     const [progress, setProgress] = useState(null);
@@ -24,7 +25,7 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
     const isInitialAddition = useSelector(state => state.general.isInitialAddition)
 
     useEffect(() => {
-        // Checking wether or not to start editing in TaskChecklist cmp on initial render
+        // Checking wether or not to start editing in CardChecklist cmp on initial render
         if (isInitialAddition) {
             addItem()
         }
@@ -65,10 +66,10 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
         checklistCopy.title = checklistTitle
         const newActivity = boardService.newActivity(
             `Renamed ${checklistCopy.title} from (${checklist.title})`,
-            `Renamed ${checklistCopy.title} from (${checklist.title}) on <a href="${url}">${task.title}</a>`,
-            task.id
+            `Renamed ${checklistCopy.title} from (${checklist.title}) on <a href="${url}">${card.title}</a>`,
+            card.id
         )
-        updateTask(checklistCopy, newActivity);
+        updateCard(checklistCopy, newActivity);
     }
 
 
@@ -85,7 +86,7 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
         if (idx !== -1) {
             checklistCopy.listItems.splice(idx, 1)
         }
-        updateTask(checklistCopy)
+        updateCard(checklistCopy)
     }
 
     const updateChecklist = async (item, activity) => {
@@ -94,7 +95,7 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
             const idx = checklistCopy.listItems.findIndex(currItem => currItem.id === item.id)
             if (idx !== -1) {
                 checklistCopy.listItems.splice(idx, 1, item) // update an item 
-                await updateTask(checklistCopy, activity);
+                await updateCard(checklistCopy, activity);
             }
         } else { // Add  item
             if (!newItem.title) {
@@ -102,32 +103,32 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
                 return;
             }
             checklistCopy.listItems.push(newItem)
-            await updateTask(checklistCopy);
+            await updateCard(checklistCopy);
             addItem()
         }
     }
 
-    const updateTask = (updatedChecklist, activity) => {
-        const taskCopy = JSON.parse(JSON.stringify(task));
+    const updateCard = (updatedChecklist, activity) => {
+        const cardCopy = JSON.parse(JSON.stringify(card));
 
         if (updatedChecklist) {
-            const idx = taskCopy.checklists.findIndex(currChecklist => currChecklist.id === updatedChecklist.id)
-            taskCopy.checklists.splice(idx, 1, updatedChecklist)
+            const idx = cardCopy.checklists.findIndex(currChecklist => currChecklist.id === updatedChecklist.id)
+            cardCopy.checklists.splice(idx, 1, updatedChecklist)
         } else {
-            taskCopy.checklists = taskCopy.checklists.filter(currChecklist => currChecklist.id !== checklist.id) // Delete checklist
+            cardCopy.checklists = cardCopy.checklists.filter(currChecklist => currChecklist.id !== checklist.id) // Delete checklist
             activity = boardService.newActivity(
                 `Removed ${checklist.title}  on this card`,
-                `Removed ${checklist.title} on [${task.title}](${url})`,
-                task.id
+                `Removed ${checklist.title} on [${card.title}](${url})`,
+                card.id
             )
         }
-        onUpdateTask(taskCopy, activity)
+        onUpdateCard(cardCopy, activity)
         setIsEditing(false);
         setNewItem(null);
     }
     // console.log('yes darling', checklist.title)
     return (
-        <div className="task-checklist">
+        <div className="card-checklist">
             <div className="section-title flex align-center">
                 <TextEditor
                     text={checklistTitle}
@@ -135,7 +136,7 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
                     onInputBlur={updateChecklistTitle}
                     type="h3"
                 />
-                <button className="modal-btn" onClick={() => updateTask()}>Delete</button>
+                <button className="modal-btn" onClick={() => updateCard()}>Delete</button>
             </div>
 
             {checklist.listItems.length > 0 &&
@@ -148,7 +149,7 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
                     onSubmit={updateChecklist}
                     onRemoveItem={removeItem}
                     item={item}
-                    task={task}
+                    card={card}
                 />
             ))
             }
@@ -178,4 +179,4 @@ const TaskChecklist = ({ task, checklist, onUpdateTask }) => {
     )
 }
 
-export default TaskChecklist
+export default CardChecklist

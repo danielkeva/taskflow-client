@@ -1,0 +1,33 @@
+.user-avatar {
+    // position: relative;
+    color: $main-font-clr;
+    .pop-up {
+        position: absolute;
+        top: 105%;
+        right: 3px;
+        .pop-up-header {
+            margin-bottom: 8px;
+        }
+        .pop-up-list {
+            .item-select {
+                display: block;
+                text-align: left;
+                padding: 6px 12px;
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.04);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .user-menu-details {
+        display: flex;
+        align-items: center;
+        .user-menu-avatar {
+            padding: 4px 8px 4px 12px;
+        }
+        p:first-of-type{
+            text-transform: capitalize;
+        }
+    }
+}
