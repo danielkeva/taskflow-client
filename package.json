@@ -1,5 +1,5 @@
 {
-  "name": "treller-react",
+  "name": "taskflow-client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3030",
