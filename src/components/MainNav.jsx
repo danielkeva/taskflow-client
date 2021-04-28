@@ -15,38 +15,37 @@ const MainNav = () => {
     const handleLogout = async () => {
         await dispatch(logout())
     }
-    console.log('islo', isLoading)
+    // console.log('islo', isLoading)
     // if (isLoading) {
     //     return <Spinner />
     // }
     // else 
     return (
         <header>
-            {user || isLoading ?
+        {user  &&
                 <nav className="main-nav">
-                    {/* {!isLoading && <> */}
-                        <NavLink to={user ?'/' + user.username + '/boards' : '/'} className="main-nav-btn" activeClassName="active">
-                            <span className="my-icon"><BsKanban /></span><span>Boards</span>
-                        </NavLink>
-                        <NavLink to={user ? '/' + user.username + '/boards': '/'} className="logo">
-                            <h1>TaskFlow</h1>
-                        </NavLink>
-                        <NavLink onClick={handleLogout} to="/" className="main-navbar-nav-link"> Log out </NavLink>
-                        < UserAvatar {...user} />
-                    {/* </>} */}
-                </nav>
-                :
-                <nav className="welcome-nav">
-                    <NavLink to="/" className="logo">
+                    <NavLink to={user ? '/' + user.username + '/boards' : '/'} className="main-nav-btn" activeClassName="active">
+                        <span className="my-icon"><BsKanban /></span><span>Boards</span>
+                    </NavLink>
+                    <NavLink to={user ? '/' + user.username + '/boards' : '/'} className="logo">
                         <h1>TaskFlow</h1>
                     </NavLink>
-                    <div>
-                        <NavLink onClick={handleLogout} to="/" className="main-navbar-nav-link"> Log out </NavLink>
-                        <NavLink to="/signup" className="wel-nav-link" >Signup</NavLink>
-                        <NavLink to="/login" className="wel-nav-link" >Log In </NavLink>
-                    </div>
+                    {/* <NavLink onClick={handleLogout} to="/" className="main-navbar-nav-link"> Log out </NavLink> */}
+                    < UserAvatar {...user} />
+                </nav>
+                
+                // <nav className="welcome-nav">
+                //     <NavLink to="/" className="logo">
+                //         <h1>TaskFlow</h1>
+                //     </NavLink>
+                //     <div>
+                //         <NavLink onClick={handleLogout} to="/" className="main-navbar-nav-link"> Log out </NavLink>
+                //         <NavLink to="/signup" className="wel-nav-link" >Signup</NavLink>
+                //         <NavLink to="/login" className="wel-nav-link" >Log In </NavLink>
+                //     </div>
 
-                </nav>}
+                // </nav>
+            }
         </header>
     )
 }

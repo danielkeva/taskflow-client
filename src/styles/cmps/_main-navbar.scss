@@ -26,35 +26,6 @@
     }
 }
 
-.welcome-nav {
-    background-color: rgb(130, 116, 208);
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 72px;
-    padding: 1rem;
-    transition: all 500ms ease-out 0s;
-    width: 100%;
-    .wel-nav-link {
-        font-size: rem(18px);
-        background-color: #fff;
-        color: rgb(130, 116, 208);
-        border: none;
-        margin: 8px 4px 0 0;
-        padding: 6px 12px;
-        line-height: 20px;
-        border-radius: 3px;
-        font-weight: 500;
-        transition: 0.3s;
-        &:hover {
-            background-color: #ededed;
-        }
-        &:last-child {
-            margin-left: 8px;
-        }
-    }
-}
 
 .logo {
     font-family: Lobster;

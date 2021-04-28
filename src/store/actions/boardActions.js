@@ -18,7 +18,6 @@ export function loadBoards() {
 export function addBoard(newBoard) {
     return async dispatch => {
         try {
-
             const response = await boardService.save(newBoard)
             dispatch({ type: 'ADD_BOARD', board: response })
         } catch (err) {

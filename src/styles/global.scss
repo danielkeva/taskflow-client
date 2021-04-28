@@ -9,6 +9,7 @@
 @import "basics/base";
 
 // VIEWS
+@import "views/home-page";
 @import "views/boards-page";
 @import "views/board-details";
 @import "views/card-details";
@@ -30,3 +31,4 @@
 @import "cmps/add-board";
 @import "cmps/activity-log";
 @import "cmps/user-avatar";
+@import "cmps/demo-card-list";

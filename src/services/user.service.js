@@ -39,20 +39,21 @@ async function loadUser() {
     // console.log('HEY USER');
     if (user._id) {
         sessionStorage.setItem(USER_KEY, JSON.stringify(user))
+        window.location.href = `/${user.username}/boards`
+    } else {
+        // window.location.href = '/boards'
     }
     return user
 }
 
 async function getAuth() {
-     await httpService.get('auth');
+    await httpService.get('auth');
     // console.log('HEY USER');
-    
+
 }
 
 function _handleLogin(user) {
-    console.log('eyeysysy');
     sessionStorage.setItem(USER_KEY, JSON.stringify(user))
-    window.location.href = '/boards'
 }
 
 

@@ -27,6 +27,7 @@ const AddBoard = ({ onAddBoard, onCloseModal, }) => {
     }
     const saveBoard = () => {
         onAddBoard(boardPrefs)
+        onCloseModal()
     }
     return (
         <div>
@@ -43,7 +44,7 @@ const AddBoard = ({ onAddBoard, onCloseModal, }) => {
                 </div>
                 {/* </div> */}
                 <NewBoardBg onStyleChange={handleBackground} />
-                <button onClick={saveBoard} disabled={!boardPrefs.title} className="submit-btn add-board-btn">Save</button>
+                <button onClick={saveBoard} disabled={!boardPrefs.title} className="success-btn add-board-btn">Save</button>
             </div>
         </div>
     )

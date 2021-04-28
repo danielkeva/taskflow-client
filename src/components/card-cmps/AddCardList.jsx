@@ -43,7 +43,7 @@ const AddCardList = ({ board, onBoardUpdated }) => {
                         type="p"
                     />
                     <div className="add-list-controls">
-                        <button className="submit-btn" onClick={addCardList}>Add List</button>
+                        <button className="success-btn" onClick={addCardList}>Add List</button>
                         <button onClick={() => setCardList(null)} className="clear-btn icon-lg">
                             <RiCloseLine />
                         </button>

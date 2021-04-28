@@ -46,7 +46,7 @@ const BoardDetails = () => {
     useEffect(() => {
         if (initialRender.current && board) {
             dispatch(loadActivities(boardId))
-            // socketService.setup()
+            socketService.setup()
             socketService.emit('board topic', board._id)
             socketService.on('update board', updateCurrBoard);
             initialRender.current = false
@@ -140,7 +140,6 @@ const BoardDetails = () => {
     } else return (
         <section className="board-details" style={board.style.type === 'color' ? { backgroundColor: `${board.style.background}` } : { backgroundImage: `url(${board.style.background})` }}>
             <div className="board-header">
-                <button>CLICK HERE</button>
                 <button className="clear-btn open-menu-btn" onClick={toggleMenu} ref={menuBtnRef}>
                     <span className="icon-sm"><BsThreeDots /></span><span>Menu</span>
                 </button>

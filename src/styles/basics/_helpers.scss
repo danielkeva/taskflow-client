@@ -1,33 +1,10 @@
-.flex {
-  display: flex;
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.flex-column {
-  flex-direction: column;
-}
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-end {
-  justify-content: end;
-}
-
-.align-center {
-  align-items: center;
-}
-
-.space-between {
-  justify-content: space-between;
-}
-
-.space-evenly {
-  justify-content: space-evenly;
-}
 
 .mark-selected {
   outline: 2px dashed #272727;
@@ -103,7 +80,7 @@
   }
 }
 
-.submit-btn {
+.success-btn {
   background-color: $submit-bgc;
   color: #fff;
   border: none;
@@ -168,3 +145,35 @@
 .ratio-poster {
   @include aspect-ratio(100, 150);
 }
+
+
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+

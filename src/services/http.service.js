@@ -31,10 +31,8 @@ async function ajax(endpoint, method = 'get', data = null) {
             method,
             data
         })
-        // console.log('res.dataa', res.data)
         return res.data;
     } catch (err) {
-        console.log('sds',err)
         throw err;
     }
 }

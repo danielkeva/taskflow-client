@@ -77,7 +77,7 @@ const DatePicker = ({ card, onCardUpdated, onCloseModal, bounds, exceptionRef })
                 onChange={onChangeDate}
                 value={value}
             />
-            <button onClick={submitDate} className="submit-btn add-date-btn">Save</button>
+            <button onClick={submitDate} className="success-btn add-date-btn">Save</button>
         </div>
     )
 }

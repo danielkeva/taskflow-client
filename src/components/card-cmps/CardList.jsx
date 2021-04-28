@@ -128,7 +128,7 @@ const CardList = ({ provided, innerRef, cardList, cardListIdx, onListUpdated, on
                                     />
 
                                     <div className="add-card-controls">
-                                        <button onClick={addCard} className="submit-btn">Add card</button>
+                                        <button onClick={addCard} className="success-btn">Add card</button>
                                         <button onClick={stopEditing} className="clear-btn icon-lg">
                                             <RiCloseLine />
                                         </button>
