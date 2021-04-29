@@ -1,5 +1,5 @@
 import Axios from 'axios';
-const { REACT_APP_SERVER_URL = '//localhost:3030' } = process.env;
+const { REACT_APP_SERVER_URL = 'http://localhost:3030/' } = process.env;
 
 var axios = Axios.create({
     withCredentials: true,
