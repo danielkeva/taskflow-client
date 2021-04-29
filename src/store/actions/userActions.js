@@ -1,5 +1,4 @@
-import { userService } from "../../services/user.service";
-
+import { userService } from '../../services/user.service';
 
 export function signup(userCred) {
     return async dispatch => {
@@ -10,28 +9,27 @@ export function signup(userCred) {
         } catch (err) {
             dispatch({ type: 'SET_ERROR', error: err.response });
         }
-    }
+    };
 }
-
 
 export function login(userCred) {
     return async dispatch => {
         try {
             const user = await userService.login(userCred);
-            dispatch({ type: 'SET_USER', user })
-            window.location.href = `/${user.username}/boards`
+            dispatch({ type: 'SET_USER', user });
+            // window.location.href = `/${user.username}/boards`
         } catch (err) {
-            console.log('err', err)
+            console.log('err', err);
             dispatch({ type: 'SET_ERROR', error: err.response });
         }
-    }
+    };
 }
 
 export function logout() {
     return async (dispatch, getState) => {
         await userService.logout();
-        dispatch({ type: 'SET_LOGOUT' })
-    }
+        dispatch({ type: 'SET_LOGOUT' });
+    };
 }
 
 export function getLoggedInUser() {
@@ -40,13 +38,13 @@ export function getLoggedInUser() {
             // await userService.loadUser()
             // dispatch({ type: 'SET_LOADING', isLoading: true})
             const user = await userService.loadUser();
-            console.log('heyehey')
+            console.log('heyehey');
             if (user._id) {
-                dispatch({ type: 'SET_USER', user })
-                return user
+                dispatch({ type: 'SET_USER', user });
+                return user;
             }
         } catch (err) {
-            console.log('login failed useractions: ', err)
+            console.log('login failed useractions: ', err);
         }
-    }
+    };
 }
