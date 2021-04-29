@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import { login } from '../store/actions/userActions';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -20,7 +20,7 @@ import { userService } from '../services/user.service';
 import { setError } from '../store/actions/errorActions';
 import ErrorNotification from '../components/ErrorNotification';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -39,122 +39,99 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
     },
     error: {
-        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "red"
-        }
-    }
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'red',
+        },
+    },
 }));
 
 const schema = yup.object().shape({
-    email: yup
-        .string()
-        .email('Please enter a valid email address')
-        .required('Email field is required'),
-    password: yup
-        .string()
-        .required('Password field is required')
-        .min(8, 'Password must be at least 8 characters long')
+    email: yup.string().email('Please enter a valid email address').required('Email field is required'),
+    password: yup.string().required('Password field is required').min(8, 'Password must be at least 8 characters long'),
 });
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-    ? '/api/'
-    : '//localhost:3030/api/'
+const { REACT_APP_SERVER_URL = '//localhost:3030' } = process.env;
+
+// const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
 const LogIn = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     const { register, handleSubmit, errors } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
     });
 
     const onSubmit = (userCred, e) => {
         // e.preventDefault()
         // console.log('data', userCred);
-        dispatch(login(userCred))
-    }
+        dispatch(login(userCred));
+    };
 
     const onError = (errors, ev) => {
         const messages = Object.keys(errors).reduce((errorMessages, fieldName) => {
-            errorMessages.push(errors[fieldName].message)
-            return errorMessages
-        }, [])
-        dispatch(setError({ data: messages }))
-    }
+            errorMessages.push(errors[fieldName].message);
+            return errorMessages;
+        }, []);
+        dispatch(setError({ data: messages }));
+    };
 
     const handleGoogleAuth = () => {
         // window.open("http://localhost:3030/api/auth/google");
-        window.open(`${BASE_URL}auth/google`, '_self');
-
-    }
+        window.open(`${REACT_APP_SERVER_URL}/auth/google`, '_self');
+    };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
             <CssBaseline />
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                </Avatar>
-                <Typography component="h1" variant="h5">
+                <Avatar className={classes.avatar}></Avatar>
+                <Typography component='h1' variant='h5'>
                     Sign in
-        </Typography>
+                </Typography>
                 <ErrorNotification />
                 <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit, onError)}>
                     <TextField
                         inputRef={register}
                         className={errors.email && classes.error}
-                        variant="outlined"
-                        margin="normal"
+                        variant='outlined'
+                        margin='normal'
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id='email'
+                        label='Email Address'
+                        name='email'
+                        autoComplete='email'
                         autoFocus
                     />
                     <TextField
                         inputRef={register}
                         className={errors.password && classes.error}
-                        variant="outlined"
-                        margin="normal"
+                        variant='outlined'
+                        margin='normal'
                         required
                         fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
+                        name='password'
+                        label='Password'
+                        type='password'
+                        id='password'
+                        autoComplete='current-password'
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
+                    <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
+                    <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
                         Sign In
-          </Button>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={handleGoogleAuth}
-                    >
+                    </Button>
+                    <Button fullWidth variant='contained' color='primary' className={classes.submit} onClick={handleGoogleAuth}>
                         Sign in with google
-          </Button>
+                    </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Link href='#' variant='body2'>
                                 Forgot password?
-              </Link>
+                            </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href='#' variant='body2'>
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
@@ -163,5 +140,5 @@ const LogIn = () => {
             </div>
         </Container>
     );
-}
+};
 export default LogIn;
