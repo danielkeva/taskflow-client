@@ -50,7 +50,7 @@ const schema = yup.object().shape({
     password: yup.string().required('Password field is required').min(8, 'Password must be at least 8 characters long'),
 });
 
-const { REACT_APP_SERVER_URL = '//localhost:3030' } = process.env;
+const { REACT_APP_SERVER_URL = '//localhost:3030/' } = process.env;
 
 // const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
@@ -78,7 +78,7 @@ const LogIn = () => {
 
     const handleGoogleAuth = () => {
         // window.open("http://localhost:3030/api/auth/google");
-        window.open(`${REACT_APP_SERVER_URL}/auth/google`, '_self');
+        window.open(`${REACT_APP_SERVER_URL}auth/google`, '_self');
     };
 
     return (
