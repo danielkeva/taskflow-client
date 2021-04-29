@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ProtectedRoute from './HOC/ProtectedRoute';
@@ -9,9 +9,7 @@ import LogIn from './pages/LogIn';
 import { getLoggedInUser } from './store/actions/userActions';
 import NotFoundFallback from './components/NotFoundFallback';
 import Spinner from './components/Spinner';
-import { useLayoutEffect } from 'react';
-import { socketService } from './services/socket.service';
-import GuestRoute from './HOC/GuestRoute';
+// import GuestRoute from './HOC/GuestRoute';
 // import BoardDetails from './pages/BoardDetails';
 
 // import BoardsPage from './pages/BoardsPage';
