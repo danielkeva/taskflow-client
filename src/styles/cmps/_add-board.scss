@@ -2,10 +2,10 @@
     // display: flex;
     display: flex;
     position: fixed;
-    top: 26px;
     left: 50%;
-    width: 400px;
-    margin-left: -150px;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 400px;
     color: #fff;
     .pop-up-close-btn {
         top: 12px;
@@ -63,7 +63,8 @@
 .bg-section-wrapper {
     display: flex;
     flex-wrap: wrap;
-    width: 100px;
+    width: 85%;
+    max-width: 100px;
     height: 93px;
     .bg-item {
         background-size: cover;

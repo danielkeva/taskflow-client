@@ -7,9 +7,10 @@ const HomePage = () => {
     // const loggedInUser = useSelector(state => state.user.loggedInUser)
     // const history = useHistory()
     // useEffect(() => {
-    //     console.log('loggedinuser', loggedInUser)
-    //     if (loggedInUser) {
-    //         history.push(`/${loggedInUser.username}/boards`);
+    //     const user = sessionStorage.getItem('user')
+    //     console.log('user',user)
+    //     if(user){
+    //         window.location.href = `/${user.username}/boards`
     //     }
     // }, [])
     return (

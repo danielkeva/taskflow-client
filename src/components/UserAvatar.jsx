@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import useOnClickOutside from '../hooks/useOnClickOutSide';
 import { logout } from '../store/actions/userActions';
+
 const UserAvatar = ({ email, username }) => {
     const [isOpen, toggleDropdown] = useState(false)
     const dispatch = useDispatch()

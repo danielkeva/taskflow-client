@@ -16,7 +16,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { userService } from '../services/user.service';
 import { setError } from '../store/actions/errorActions';
 import ErrorNotification from '../components/ErrorNotification';
 
@@ -77,7 +76,6 @@ const LogIn = () => {
     };
 
     const handleGoogleAuth = () => {
-        // window.open("http://localhost:3030/api/auth/google");
         window.open(`${REACT_APP_SERVER_URL}auth/google`, '_self');
     };
 

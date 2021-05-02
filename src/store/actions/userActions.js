@@ -17,7 +17,7 @@ export function login(userCred) {
         try {
             const user = await userService.login(userCred);
             dispatch({ type: 'SET_USER', user });
-            // window.location.href = `/${user.username}/boards`
+            window.location.href = `/${user.username}/boards`
         } catch (err) {
             console.log('err', err);
             dispatch({ type: 'SET_ERROR', error: err.response });

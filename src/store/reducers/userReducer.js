@@ -3,13 +3,12 @@ if (sessionStorage.user) localLoggedinUser = JSON.parse(sessionStorage.user);
 
 const initialState = {
     loggedInUser: localLoggedinUser,
-
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action = {}) {
     switch (action.type) {
         case 'SET_USER':
-            console.log('ssssss')
             return {
                 ...state,
                 loggedInUser: { ...action.user },

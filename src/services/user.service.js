@@ -38,6 +38,7 @@ async function loadUser() {
     const user = await httpService.get('auth/login');
     // console.log('HEY USER');
     if (user._id) {
+        console.log('yess!')
         sessionStorage.setItem(USER_KEY, JSON.stringify(user))
         window.location.href = `/${user.username}/boards`
     } else {
