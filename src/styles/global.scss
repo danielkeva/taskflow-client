@@ -1,34 +1,33 @@
 // SETUP
-@import "setup/typography";
-@import "setup/variables";
-@import "setup/mixins";
-@import "setup/functions";
+@import 'setup/typography';
+@import 'setup/variables';
+@import 'setup/mixins';
+@import 'setup/functions';
 
 // BASICS
-@import "basics/helpers";
-@import "basics/base";
+@import 'basics/helpers';
+@import 'basics/base';
 
 // VIEWS
-@import "views/home-page";
-@import "views/boards-page";
-@import "views/board-details";
-@import "views/card-details";
+// @import 'views/boards-page';
+// @import 'views/board-details';
+// @import 'views/card-details';
 
 // COMPONENTS
-@import "cmps/board-menu";
-@import "cmps/text-editor";
-@import "cmps/card-list";
-@import "cmps/card-actions";
-@import "cmps/list-menu";
-@import "cmps/card-preview";
-@import "cmps/label-picker";
-@import "cmps/cover-picker";
-@import "cmps/labels-list";
-@import "cmps/checklist";
-@import "cmps/main-navbar";
-@import "cmps/bg-picker";
-@import "cmps/board-privacy";
-@import "cmps/add-board";
-@import "cmps/activity-log";
-@import "cmps/user-avatar";
-@import "cmps/demo-card-list";
+// @import 'cmps/board-menu';
+// @import 'cmps/text-editor';
+// @import 'cmps/card-list';
+// @import 'cmps/card-actions';
+// @import 'cmps/list-menu';
+// @import 'cmps/card-preview';
+// @import 'cmps/label-picker';
+// @import 'cmps/cover-picker';
+// @import 'cmps/labels-list';
+// @import 'cmps/checklist';
+// @import 'cmps/main-navbar';
+// @import 'cmps/bg-picker';
+// @import 'cmps/board-privacy';
+// @import 'cmps/add-board';
+// @import 'cmps/activity-log';
+// @import 'cmps/user-avatar';
+// @import 'cmps/demo-card-list';

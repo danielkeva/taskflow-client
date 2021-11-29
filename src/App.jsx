@@ -2,19 +2,19 @@ import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import ProtectedRoute from './HOC/ProtectedRoute'
-import HomePage from './pages/HomePage/HomePage'
+import HomePage from './containers/HomePage/HomePage'
 import MainNav from './components/MainNav'
-import SignUp from './pages/SignUp'
-import LogIn from './pages/LogIn'
+import SignUp from './containers/SignUp'
+import LogIn from './containers/LogIn'
 import { getLoggedInUser } from './store/actions/userActions'
 import NotFoundFallback from './components/NotFoundFallback'
 import Spinner from './components/Spinner'
 import GuestRoute from './HOC/GuestRoute'
-// import BoardDetails from './pages/BoardDetails';
+// import BoardDetails from './containers/BoardDetails';
 
-// import BoardsPage from './pages/BoardsPage';
-const BoardDetails = lazy(() => import('./pages/BoardDetails'))
-const BoardsPage = lazy(() => import('./pages/BoardsPage'))
+// import BoardsPage from './containers/BoardsPage';
+const BoardDetails = lazy(() => import('./containers/BoardDetails'))
+const BoardsPage = lazy(() => import('./containers/BoardsPage'))
 
 const USER_KEY = 'user'
 function App() {

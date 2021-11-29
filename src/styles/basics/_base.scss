@@ -1,63 +1,57 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 html {
-    font-family: Lato;
-    //  Fitting html's width with the list-container's width
-    //   React-beautiful-dnd doesn't support two scrolling parent
-    //   Can be removed once https://github.com/atlassian/react-beautiful-dnd/issues/131 is fixed
-    min-width: min-content;
-    height: 100%;
-    // min-height: 100%;
+  font-family: Lato;
+  //  Fitting html's width with the list-container's width
+  //   React-beautiful-dnd doesn't support two scrolling parent
+  //   Can be removed once https://github.com/atlassian/react-beautiful-dnd/issues/131 is fixed
+  min-width: min-content;
+  height: 100%;
+  // min-height: 100%;
 }
 
 body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    font-size: rem(14px);
-    color: $main-font-clr;
-    // background-color: #026aa7;
-    // background: linear-gradient(#3EB9DE, #3A80DE);
-    background-size: cover;
-    // background-position: center;
-}
-// html,
-// body,
-#root,
-main {
-    
-height:100%;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-size: rem(14px);
+  color: $main-font-clr;
+  // background-color: #026aa7;
+  // background: linear-gradient(#3EB9DE, #3A80DE);
+  background-size: cover;
+  // background-position: center;
 }
 
-main{
-    // background: linear-gradient(#3EB9DE, #3A80DE);
+#root,
+main {
+  height: 100%;
 }
+
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 h1,
 h2,
 h3,
 h4 {
-    margin: 0;
-    font-size: inherit;
-    line-height: 1.2;
-    font-weight: inherit;
+  margin: 0;
+  font-size: inherit;
+  line-height: 1.2;
+  font-weight: inherit;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
-

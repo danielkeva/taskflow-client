@@ -1,10 +1,9 @@
-.container {
+:global(.container) {
   max-width: 1080px;
   margin: 0 auto;
   padding-left: 10px;
   padding-right: 10px;
 }
-
 
 .mark-selected {
   outline: 2px dashed #272727;
@@ -80,7 +79,7 @@
   }
 }
 
-.success-btn {
+:global(.successBtn) {
   background-color: $submit-bgc;
   color: #fff;
   border: none;
@@ -146,7 +145,6 @@
   @include aspect-ratio(100, 150);
 }
 
-
 .flex {
   display: flex;
 }
@@ -176,4 +174,3 @@
 .space-evenly {
   justify-content: space-evenly;
 }
-

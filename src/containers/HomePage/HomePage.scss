@@ -3,16 +3,16 @@
   overflow-y: auto;
   font-family: SourceSans;
   font-size: rem(26px);
-  .container {
-    display: flex;
-  }
   .hero {
     background: linear-gradient(#3eb9de, #3a80de);
+    padding: 0 80px;
+    display: flex;
     padding-top: 7rem;
-
     .heroText {
       align-self: center;
       color: #fff;
+      flex: 1;
+
       h1 {
         font-size: 3rem;
         font-weight: 700;
@@ -21,7 +21,7 @@
     }
 
     .heroImg {
-      width: 50%;
+      flex: 2;
     }
     .successBtn {
       font-size: rem(24px);
