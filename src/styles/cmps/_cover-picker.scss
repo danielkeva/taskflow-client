@@ -1,208 +1,208 @@
 .cover-picker {
-    .pop-up-title {
-        letter-spacing: 0.04em;
-        line-height: 16px;
-        margin-top: 16px;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-    }
-    .modal-btn {
-        position: static;
-        width: 100% !important;
-    }
+  .pop-up-title {
+    letter-spacing: 0.04em;
+    line-height: 16px;
+    margin-top: 16px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .modal-btn {
+    position: static;
+    width: 100% !important;
+  }
 }
 .cover-palette {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .cover-color {
-    min-width: 4.5rem;
-    padding: 22px;
-    margin-left: 0.3125rem;
-    margin-bottom: 0.3125rem;
-    border-radius: 0.1875rem;
-    cursor: pointer;
-    &:hover {
-        // filter: opacity(80%);
-        opacity: 0.8;
-    }
-    &.selected {
-        box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
-    }
+  min-width: 4.5rem;
+  padding: 22px;
+  margin-left: 0.3125rem;
+  margin-bottom: 0.3125rem;
+  border-radius: 0.1875rem;
+  cursor: pointer;
+  &:hover {
+    // filter: opacity(80%);
+    opacity: 0.8;
+  }
+  &.selected {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
+  }
 }
 
 .cover-size-picker {
-    display: flex;
-    justify-content: center;
-    .cover-size {
-        position: relative;
-        height: 60px;
-        flex: 1;
-        border-radius: 3px;
-        cursor: pointer;
-        &:hover {
-            opacity: 0.8;
-        }
-        &.selected {
-            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
-        }
-        &.disabled {
-            opacity: unset;
-            cursor: default;
-        }
-        .half {
-            height: 100%;
-            clip-path: polygon(0 1%, 100% 1%, 100% 50%, 0 50%);
-            border-radius: 3px;
-        }
-        &.half {
-            border: 1px solid rgba(9, 30, 66, 0.08);
-        }
-        .line-wrapper {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+  display: flex;
+  justify-content: center;
+  .cover-size {
+    position: relative;
+    height: 60px;
+    flex: 1;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+    &.selected {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
+    }
+    &.disabled {
+      opacity: unset;
+      cursor: default;
+    }
+    .half {
+      height: 100%;
+      clip-path: polygon(0 1%, 100% 1%, 100% 50%, 0 50%);
+      border-radius: 3px;
+    }
+    &.half {
+      border: 1px solid rgba(9, 30, 66, 0.08);
+    }
+    .line-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
 
-            .line {
-                margin: 4px;
-                height: 4px;
-                width: 75px;
-                background-color: rgba(9, 30, 66, 0.6);
-                border-radius: 2px;
-            }
-            .line2 {
-                width: 40px;
-            }
-            .line3 {
-                width: 45px;
-            }
-            &.dark {
-                .line {
-                    background-color: #fff;
-                }
-            }
+      .line {
+        margin: 4px;
+        height: 4px;
+        width: 75px;
+        background-color: rgba(9, 30, 66, 0.6);
+        border-radius: 2px;
+      }
+      .line2 {
+        width: 40px;
+      }
+      .line3 {
+        width: 45px;
+      }
+      &.dark {
+        .line {
+          background-color: #fff;
         }
+      }
     }
-    :last-child {
-        margin-left: 8px;
-    }
+  }
+  :last-child {
+    margin-left: 8px;
+  }
 }
 
 .cover-txt-color {
-    .cover-txt {
-        height: 30px;
-        width: 100%;
-        border-radius: 3px;
-        background-size: cover;
-        background-position: 50%;
-        padding: 6px 10px 6px 12px;
-        overflow: hidden;
-        cursor: pointer;
-        h3 {
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 14px;
-            line-height: 20px;
-        }
+  .cover-txt {
+    height: 30px;
+    width: 100%;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: 50%;
+    padding: 6px 10px 6px 12px;
+    overflow: hidden;
+    cursor: pointer;
+    h3 {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      line-height: 20px;
+    }
 
-        &.dark {
-            h3 {
-                color: #fff;
-            }
-        }
-        &.light {
-            h3 {
-                color: $clr2;
-            }
-        }
-        &:hover {
-            // filter: opacity(80%);
-            opacity: 0.8;
-        }
-        &.selected {
-            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
-        }
+    &.dark {
+      h3 {
+        color: #fff;
+      }
     }
-    :last-child {
-        margin-left: 8px;
+    &.light {
+      h3 {
+        color: $clr2;
+      }
     }
+    &:hover {
+      // filter: opacity(80%);
+      opacity: 0.8;
+    }
+    &.selected {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
+    }
+  }
+  :last-child {
+    margin-left: 8px;
+  }
 }
 
 .cover-img-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    row-gap: 10px;
-    margin-top: 3px;
-    .cover-img-preview {
-        cursor: pointer;
-        height: 80px;
-        width: 80px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: 50%;
-        margin: 0 auto;
-        &:hover {
-            // filter: opacity(80%);
-            opacity: 0.8;
-        }
-      
-        &.selected {
-            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
-        }
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 10px;
+  margin-top: 3px;
+  .cover-img-preview {
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    margin: 0 auto;
+    &:hover {
+      // filter: opacity(80%);
+      opacity: 0.8;
     }
+
+    &.selected {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0079bf;
+    }
+  }
 }
 
 .upload-img-container {
-    padding: 10px;
-    [type="file"] {
-        height: 0;
-        overflow: hidden;
-        width: 0;
-    }
-    [type="file"] + label {
-        background: $btn1-clr;
-        border: none;
-        color: $main-font-clr;
-        cursor: pointer;
-        font-weight: 600;
-        outline: none;
-        padding: 10px 28px;
-        position: relative;
+  padding: 10px;
+  [type='file'] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+  }
+  [type='file'] + label {
+    background: $btn1-clr;
+    border: none;
+    color: $main-font-clr;
+    cursor: pointer;
+    font-weight: 600;
+    outline: none;
+    padding: 10px 28px;
+    position: relative;
+    transition: all 0.3s;
+
+    &.btn-3 {
+      overflow: hidden;
+      margin-right: 10px;
+
+      span {
+        display: inline-block;
         transition: all 0.3s;
+      }
 
-        &.btn-3 {
-            overflow: hidden;
-            margin-right: 10px;
+      &::before {
+        content: url(assets/img/upload.svg);
+        height: -1%;
+        left: 34px;
+        line-height: 2.6;
+        position: absolute;
+        top: -180%;
+        transition: all 0.3s;
+        width: 24%;
+      }
 
-            span {
-                display: inline-block;
-                transition: all 0.3s;
-            }
+      &:hover {
+        background-color: $btn1-hover-clr;
 
-            &::before {
-                content: url(../../assets/img/upload.svg);
-                height: -1%;
-                left: 34px;
-                line-height: 2.6;
-                position: absolute;
-                top: -180%;
-                transition: all 0.3s;
-                width: 24%;
-            }
-
-            &:hover {
-                background-color: $btn1-hover-clr;
-
-                span {
-                    transform: translateY(300%);
-                }
-                &::before {
-                    top: 4px;
-                }
-            }
+        span {
+          transform: translateY(300%);
         }
+        &::before {
+          top: 4px;
+        }
+      }
     }
+  }
 }

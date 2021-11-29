@@ -1,34 +1,33 @@
-import Axios from "axios";
-const { REACT_APP_SERVER_URL = "https://my-taskflow.herokuapp.com/" } = process.env;
+import Axios from 'axios'
 
 var axios = Axios.create({
-  withCredentials: true,
-});
+  withCredentials: true
+})
 
 export default {
   get(endpoint, data) {
-    return ajax(endpoint, "GET", data);
+    return ajax(endpoint, 'GET', data)
   },
   post(endpoint, data) {
-    return ajax(endpoint, "POST", data);
+    return ajax(endpoint, 'POST', data)
   },
   put(endpoint, data) {
-    return ajax(endpoint, "PUT", data);
+    return ajax(endpoint, 'PUT', data)
   },
   delete(endpoint, data) {
-    return ajax(endpoint, "DELETE", data);
-  },
-};
+    return ajax(endpoint, 'DELETE', data)
+  }
+}
 
-async function ajax(endpoint, method = "get", data = null) {
+async function ajax(endpoint, method = 'get', data = null) {
   try {
     const res = await axios({
-      url: `${REACT_APP_SERVER_URL}${endpoint}`,
+      url: `${process.env.REACT_APP_SERVER_URL}${endpoint}`,
       method,
-      data,
-    });
-    return res.data;
+      data
+    })
+    return res.data
   } catch (err) {
-    throw err;
+    throw err
   }
 }
