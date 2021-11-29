@@ -6,7 +6,6 @@ import { Route, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { BsThreeDots } from "react-icons/bs";
 import { utilService } from '../services/util.service'
-import { socketService } from '../services/socket.service';
 
 
 import CardList from '../components/card-cmps/CardList'
@@ -46,22 +45,9 @@ const BoardDetails = () => {
     useEffect(() => {
         if (initialRender.current && board) {
             dispatch(loadActivities(boardId))
-            socketService.setup()
-            socketService.emit('board topic', board._id)
-            socketService.on('update board', updateCurrBoard);
-            initialRender.current = false
         }
 
     }, [board])
-
-    useEffect(() => {
-        return () => {
-            socketService.off('update board', updateCurrBoard);
-            // socketService.terminate();  // clean up
-            // dispatch(hideError())
-            // setLoading(false);
-        };
-    }, [])
 
     const updateList = async (cardList, activity = null) => {
         const boardCopy = JSON.parse(JSON.stringify(board));

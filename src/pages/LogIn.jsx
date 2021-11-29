@@ -49,7 +49,7 @@ const schema = yup.object().shape({
     password: yup.string().required('Password field is required').min(8, 'Password must be at least 8 characters long'),
 });
 
-const { REACT_APP_SERVER_URL = '//localhost:3030/' } = process.env;
+const { REACT_APP_SERVER_URL = 'https://my-taskflow.herokuapp.com/' } = process.env;
 
 // const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
